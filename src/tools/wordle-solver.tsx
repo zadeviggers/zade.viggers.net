@@ -30,7 +30,10 @@ export default function WordleSolver() {
 				return true;
 			});
 			const yellowFiltered = greyFiltered.filter((word) => {
-				if (yellowLetters().find((letter) => word.includes(letter)))
+				if (
+					yellowLetters().filter((letter) => word.includes(letter)).length ===
+					yellowLetters().length
+				)
 					return true;
 				return false;
 			});
@@ -59,10 +62,6 @@ export default function WordleSolver() {
 			<Match when={!words.loading && !words.error}>
 				<div class="stack">
 					<p>Enter at least 3 total letters to see suggestions.</p>
-					<p>
-						Note: loads an array with just over 370,000 items in it. Might break
-						on devices without much ram.
-					</p>
 					<label for="greyed-out-letters">
 						<input
 							id="greyed-out-letters"
