@@ -1,0 +1,17 @@
+{
+	"name": "zade.viggers.net",
+	"private": true,
+	"version": "1.0.0",
+	"scripts": {
+		"dev": "astro dev --verbose --experimental-static-build",
+		"build": "astro build --verbose --experimental-static-build",
+		"check": "astro check"
+	},
+	"dependencies": {
+		"astro": "^0.22.18"
+	},
+	"devDependencies": {
+		"prettier": "^2.5.1",
+		"prettier-plugin-astro": "^0.0.12"
+	}
+}
