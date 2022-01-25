@@ -1,0 +1,14 @@
+---
+export interface Props {
+	title: string;
+}
+import BaseLayout from "./base-layout.astro";
+const { title } = Astro.props;
+---
+
+<BaseLayout {title}>
+	<slot />
+	<footer>
+		<a href="/">← Back to home page</a>
+	</footer>
+</BaseLayout>

@@ -1,0 +1,20 @@
+---
+import ToolsPageLayout from "../../layouts/tools-page-layout.astro";
+import WordleSolver from "../../tools/wordle-solver";
+---
+
+<ToolsPageLayout title="Wordle solver">
+	<h1>Wordle solver</h1>
+	<p>
+		Use to cheat at <a
+			href="https://www.powerlanguage.co.uk/wordle/"
+			rel="noopener noreferrer">wordle</a
+		>.
+	</p>
+	<WordleSolver client:load />
+	<p>
+		Made with <a href="https://www.solidjs.com/" rel="noopener noreferrer"
+			>Solid</a
+		>.
+	</p>
+</ToolsPageLayout>
