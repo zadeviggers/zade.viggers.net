@@ -1,0 +1,15 @@
+---
+import ExperimentsPageLayout from "../../layouts/experiments-page-layout.astro";
+import GameOfLife from "../../experiments/game-of-life";
+---
+
+<ExperimentsPageLayout title="Conway's game of life">
+	<h1>Conway's game of life</h1>
+
+	<GameOfLife client:load />
+	<p>
+		Made with <a href="https://www.solidjs.com/" rel="noopener noreferrer"
+			>Solid</a
+		>.
+	</p>
+</ExperimentsPageLayout>
