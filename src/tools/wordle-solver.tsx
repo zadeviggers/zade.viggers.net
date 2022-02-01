@@ -25,19 +25,7 @@ export default function WordleSolver() {
 			greyLetters().length + yellowLetters().length + greenLetters().length >=
 			3
 		) {
-			const greyFiltered = words().filter((word) => {
-				if (greyLetters().find((letter) => word.includes(letter))) return false;
-				return true;
-			});
-			const yellowFiltered = greyFiltered.filter((word) => {
-				if (
-					yellowLetters().filter((letter) => word.includes(letter)).length ===
-					yellowLetters().length
-				)
-					return true;
-				return false;
-			});
-			const greenFiltered = yellowFiltered.filter((word) => {
+			const greenFiltered = words().filter((word) => {
 				if (
 					greenLetters().filter((letter, i) =>
 						letter === "?" ? true : word[i] === letter,
@@ -46,7 +34,20 @@ export default function WordleSolver() {
 					return true;
 				return false;
 			});
-			setPossibleWords(greenFiltered);
+			const yellowFiltered = greenFiltered.filter((word) => {
+				const lettersToFilter = [...yellowLetters(), ...greenLetters()];
+				if (
+					lettersToFilter.filter((letter) => word.includes(letter)).length ===
+					lettersToFilter.length
+				)
+					return true;
+				return false;
+			});
+			const greyFiltered = yellowFiltered.filter((word) => {
+				if (greyLetters().find((letter) => word.includes(letter))) return false;
+				return true;
+			});
+			setPossibleWords(greyFiltered);
 		}
 	});
 
