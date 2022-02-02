@@ -17,7 +17,7 @@ export default function WordleSolver() {
 	const [words] = createResource(async () => {
 		const data = await fetch("/five-letter-words.txt");
 		const text = await data.text();
-		return text.split(",");
+		return text.split("\n");
 	});
 	const totalLength = () =>
 		greyLetters().length + yellowLetters().length + greenLetters().length;
