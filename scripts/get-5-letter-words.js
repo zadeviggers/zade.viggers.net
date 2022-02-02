@@ -17,24 +17,19 @@ const common5LetterWords = commonWords
 	.map((w) => w.trim().toUpperCase())
 	.filter((w) => w.length === 5);
 
-const sortedWords = fiveLetterWords; /*fiveLetterWords.sort((a, b) => {
+const sortedWords = fiveLetterWords.sort((a, b) => {
 	const commonIndexA = common5LetterWords.indexOf(a);
 	const commonIndexB = common5LetterWords.indexOf(b);
-	if (commonIndexA === undefined && commonIndexB === undefined) {
+	if (commonIndexA === -1 && commonIndexB === -1) {
 		return 0;
-	} else if (commonIndexA !== undefined && commonIndexB === undefined) {
-		return 1;
-	} else if (commonIndexA === undefined && commonIndexB !== undefined) {
+	} else if (commonIndexA !== -1 && commonIndexB === -1) {
 		return -1;
-	}
-	if (commonIndexA < commonIndexB) {
-		return -1;
-	} else if (commonIndexA > commonIndexB) {
+	} else if (commonIndexA === -1 && commonIndexB !== -1) {
 		return 1;
 	}
-	return 0;
-});*/
-
+	return commonIndexA - commonIndexB;
+});
+[].sort();
 writeFileSync(
 	join(__dirname, "..", "public", "five-letter-words.txt"),
 	sortedWords.join("\n"),

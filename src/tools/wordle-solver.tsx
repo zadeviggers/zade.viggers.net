@@ -150,6 +150,7 @@ export default function WordleSolver() {
 						Posible words
 						{possibleWords().length > 0 && ` (${possibleWords().length})`}:
 					</h2>
+					<p>More common words will generally be higher up in the list</p>
 					<ul>
 						<For
 							each={possibleWords()}
