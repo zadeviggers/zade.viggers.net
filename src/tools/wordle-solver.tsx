@@ -129,7 +129,7 @@ export default function WordleSolver() {
 						<input
 							id="green-letters"
 							type="text"
-							placeholder="W??DLE"
+							placeholder="W??DS"
 							regexp="^[a-zA-Z\?]{0,5}$"
 							maxlength={5}
 							value={greenLetters().join("")}
@@ -156,9 +156,15 @@ export default function WordleSolver() {
 							each={possibleWords()}
 							fallback={
 								totalLength() < threshold ? (
-									<li>
-										Enter at least {threshold} characters to see suggestions.
-									</li>
+									<>
+										<li>
+											Enter at least {threshold} characters to see suggestions.
+										</li>
+										<li>Need an opening word?</li>
+										<li>
+											I suggest <span className="code">ADIEU</span>.
+										</li>
+									</>
 								) : (
 									<li>No words found :(</li>
 								)
