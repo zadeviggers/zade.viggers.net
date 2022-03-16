@@ -2,14 +2,14 @@ lockfileVersion: 5.3
 
 specifiers:
   '@astrojs/renderer-solid': ^0.4.0
-  astro: ^0.24.0
+  astro: ^0.24.3
   morphdom: ^2.6.1
   prettier: ^2.5.1
   prettier-plugin-astro: ^0.0.12
   solid-js: ^1.3.12
 
 dependencies:
-  astro: 0.24.0
+  astro: 0.24.3
   solid-js: 1.3.12
 
 devDependencies:
@@ -125,13 +125,14 @@ packages:
       - '@babel/core'
     dev: true
 
-  /@astrojs/renderer-svelte/0.5.1_bddefd804949773094c9c95d39c29f74:
-    resolution: {integrity: sha512-/k5D0fJkZqQQHvBQ3qAtaPZqdi55SwLdSUJtjb3J9P7WSMwaEv1kWKjy+S7pnKHsty+Vgsn20MgLK2JUgv0dOA==}
+  /@astrojs/renderer-svelte/0.5.2_@babel+core@7.17.5+postcss@8.4.8:
+    resolution: {integrity: sha512-ydQOwUJn5mlXVH1TrRw61vhBqxVPXVR9n9NLhnyETpqjOViZcZSmx6YaBwcKBsD5t0Sq89l5NwnNT1cL6h3C/w==}
     engines: {node: ^14.15.0 || >=16.0.0}
     dependencies:
       '@sveltejs/vite-plugin-svelte': 1.0.0-next.39_svelte@3.46.4+vite@2.8.6
       svelte: 3.46.4
-      svelte-preprocess: 4.10.2_875bbc4eea345bc9d5a06046f4a3b6e4
+      svelte-preprocess: 4.10.4_875bbc4eea345bc9d5a06046f4a3b6e4
+      vite: 2.8.6
     transitivePeerDependencies:
       - '@babel/core'
       - coffeescript
@@ -146,7 +147,6 @@ packages:
       - sugarss
       - supports-color
       - typescript
-      - vite
     dev: false
 
   /@astrojs/renderer-vue/0.4.0_vite@2.8.6:
@@ -770,8 +770,8 @@ packages:
       util: 0.12.4
     dev: false
 
-  /astro/0.24.0:
-    resolution: {integrity: sha512-KN0EtbypW+OC2MQOEH2wBcNlX0Vuu/+DMLVCJsaH2RnvzONunuWxZdNxKCO8EM7fnx8TlH+vA9VaBXcdm5iWTA==}
+  /astro/0.24.3:
+    resolution: {integrity: sha512-FyyX1xVv/EQnoHDo6W11aG3k2ztuAC5U8IzPhO5QbNEZX32C1T7qsVZdUyCK73Xz5kOEh+F3Ys7BD/sK9MeyDw==}
     engines: {node: ^14.15.0 || >=16.0.0, npm: '>=6.14.0'}
     hasBin: true
     dependencies:
@@ -781,7 +781,7 @@ packages:
       '@astrojs/prism': 0.4.0
       '@astrojs/renderer-preact': 0.5.0_@babel+core@7.17.5
       '@astrojs/renderer-react': 0.5.0_@babel+core@7.17.5
-      '@astrojs/renderer-svelte': 0.5.1_bddefd804949773094c9c95d39c29f74
+      '@astrojs/renderer-svelte': 0.5.2_@babel+core@7.17.5+postcss@8.4.8
       '@astrojs/renderer-vue': 0.4.0_vite@2.8.6
       '@astrojs/webapi': 0.11.0
       '@babel/core': 7.17.5
@@ -799,6 +799,7 @@ packages:
       fast-glob: 3.2.11
       fast-xml-parser: 4.0.6
       html-entities: 2.3.2
+      html-escaper: 3.0.3
       htmlparser2: 7.2.0
       kleur: 4.1.4
       magic-string: 0.25.9
@@ -810,7 +811,7 @@ packages:
       prismjs: 1.27.0
       rehype-slug: 5.0.1
       resolve: 1.22.0
-      rollup: 2.70.0
+      rollup: 2.70.1
       semver: 7.3.5
       serialize-javascript: 6.0.0
       shiki: 0.10.1
@@ -1732,6 +1733,10 @@ packages:
 
   /html-entities/2.3.2:
     resolution: {integrity: sha512-c3Ab/url5ksaT0WyleslpBEthOzWhrjQbg75y7XUsfSzi3Dgzt0l8w5e7DylRn15MTlMMD58dTfzddNS2kcAjQ==}
+
+  /html-escaper/3.0.3:
+    resolution: {integrity: sha512-RuMffC89BOWQoY0WKGpIhn5gX3iI54O6nRA0yC124NYVtzjmFWBIiFd8M0x+ZdX0P9R4lADg1mgP8C7PxGOWuQ==}
+    dev: false
 
   /html-void-elements/2.0.1:
     resolution: {integrity: sha512-0quDb7s97CfemeJAnW9wC0hw78MtW7NU3hqtCD75g2vFlDLt36llsYD7uB7SUzojLMP24N5IatXf7ylGXiGG9A==}
@@ -2986,8 +2991,8 @@ packages:
       glob: 7.2.0
     dev: true
 
-  /rollup/2.70.0:
-    resolution: {integrity: sha512-iEzYw+syFxQ0X9RefVwhr8BA2TNJsTaX8L8dhyeyMECDbmiba+8UQzcu+xZdji0+JQ+s7kouQnw+9Oz5M19XKA==}
+  /rollup/2.70.1:
+    resolution: {integrity: sha512-CRYsI5EuzLbXdxC6RnYhOuRdtz4bhejPMSWjsFLfVM/7w/85n2szZv6yExqUXsBdz5KT8eoubeyDUDjhLHEslA==}
     engines: {node: '>=10.0.0'}
     hasBin: true
     optionalDependencies:
@@ -3281,8 +3286,8 @@ packages:
       svelte: 3.46.4
     dev: false
 
-  /svelte-preprocess/4.10.2_875bbc4eea345bc9d5a06046f4a3b6e4:
-    resolution: {integrity: sha512-aPpkCreSo8EL/y8kJSa1trhiX0oyAtTjlNNM7BNjRAsMJ8Yy2LtqHt0zyd4pQPXt+D4PzbO3qTjjio3kwOxDlA==}
+  /svelte-preprocess/4.10.4_875bbc4eea345bc9d5a06046f4a3b6e4:
+    resolution: {integrity: sha512-fuwol0N4UoHsNQolLFbMqWivqcJ9N0vfWO9IuPAiX/5okfoGXURyJ6nECbuEIv0nU3M8Xe2I1ONNje2buk7l6A==}
     engines: {node: '>= 9.11.2'}
     requiresBuild: true
     peerDependencies:
@@ -3297,7 +3302,7 @@ packages:
       stylus: ^0.55.0
       sugarss: ^2.0.0
       svelte: ^3.23.0
-      typescript: ^4.5.2
+      typescript: ^3.9.5 || ^4.0.0
     peerDependenciesMeta:
       '@babel/core':
         optional: true
@@ -3587,7 +3592,7 @@ packages:
       esbuild: 0.14.25
       postcss: 8.4.8
       resolve: 1.22.0
-      rollup: 2.70.0
+      rollup: 2.70.1
     optionalDependencies:
       fsevents: 2.3.2
     dev: false
