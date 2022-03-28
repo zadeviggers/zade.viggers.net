@@ -1,3 +1,5 @@
+import solid from "@astrojs/solid-js";
+
 export default {
-	renderers: ["@astrojs/renderer-solid"],
+	integrations: [solid()],
 };
