@@ -1,5 +1,148 @@
 ---
 import BaseLayout from "../layouts/base-layout.astro";
+
+type Technology = {
+	name: string;
+	url: string;
+	note?: string;
+};
+const technologies: Record<string, Technology> = {
+	Typescript: { name: "Typescript", url: "https://typescriptlang.org/" },
+	MUI5: { name: "MUI", url: "https://mui.com/", note: "Version 5" },
+	MUI4: { name: "MUI", url: "https://mui.com/", note: "Version 4" },
+	React: { name: "React", url: "https://reactjs.org/" },
+	ReactQuery: { name: "React-Query", url: "https://react-query.tanstack.com/" },
+	ReactRouter5: {
+		name: "React-Router",
+		url: "reactrouter.com/",
+		note: "Version 5",
+	},
+	ReactRouter6: {
+		name: "React-Router",
+		url: "reactrouter.com/",
+		note: "Version 6",
+	},
+	MapboxGLJS: {
+		name: "Mapbox GL JS",
+		url: "https://mapbox.com/",
+	},
+	Tailwind3: {
+		name: "Tailwind CSS",
+		url: "https://tailwindcss.com/",
+		note: "Version 3",
+	},
+	Astro: {
+		name: "Astro",
+		url: "https://astro.build/",
+	},
+	NetlifyCMS: {
+		name: "Netlify CMS",
+		url: "https://www.netlifycms.org/",
+	},
+};
+type Project = {
+	title: string;
+	url: string;
+	comment: string;
+	technologies: (keyof typeof technologies)[];
+};
+type ProjectGroup = {
+	group: true;
+	heading: string;
+	projects: Project[];
+};
+const projects: (Project | ProjectGroup)[] = [
+	{
+		group: true,
+		heading: "While working at CRISiSLab",
+		projects: [
+			{
+				title: "CRISiSLab sensor management dashboard",
+				url: "https://admin.crisislab.org.nz/",
+				comment:
+					"Website frontend (dashboard and authentication pages) desgined and programmed me.",
+				technologies: [
+					"MUI5",
+					"ReactQuery",
+					"ReactRouter6",
+					"React",
+					"Typescript",
+				],
+			},
+			{
+				title: "CRISiSLab shakemap",
+				url: "https://shakemap.crisislab.org.nz/",
+				comment:
+					"Original (No longer used) website frontend designed and programmed by me.",
+				technologies: [
+					"MapboxGLJS",
+					"MUI5",
+					"ReactQuery",
+					"ReactRouter6",
+					"React",
+					"Typescript",
+				],
+			},
+		],
+	},
+	{
+		title: "St Paul's Lutheran Church Wellington website",
+		url: "https://st-pauls-website.vercel.app/",
+		comment:
+			"Website desgined and programmed me. Graphics made in Adobe Illustrator.",
+		technologies: ["Tailwind3"],
+	},
+	{
+		title: "Public Transport Forum New Zealand website",
+		url: "https://publictransportforum.nz/",
+		comment:
+			"Website, backend, and content managment system designed and programmed by me.",
+		technologies: ["Astro", "NetlifyCMS", "Typescript"],
+	},
+	{
+		title: "Wellington College Retail Simulation",
+		url: "https://retailsimulation.co.nz/",
+		comment:
+			"Website frontend partialy designed and partialy programmed by me.",
+		technologies: ["MUI4", "React"],
+	},
+];
+
+function renderProjects(projects: (Project | ProjectGroup)[]) {
+	return projects.map((project) => {
+		let content;
+		if ("group" in project) {
+			content = `<h3>${project.heading}.</h3>
+<ul class="flow">
+	${renderProjects(project.projects).join("\n")}
+</ul>`;
+		} else {
+			content = `
+<h4>
+	<a
+		href="${project.url}"
+		rel="noopener noreferrer">
+		${project.title}.
+	</a>
+</h4>
+<p>
+	${project.comment}
+</p>
+<p>
+	Made using ${project.technologies
+		.map((technologyID) => {
+			const technology = technologies[technologyID];
+			return `<a href="${technology.url}" rel="noopener noreferrer">${
+				technology.name
+			}</a>${technology.note ? ` (${technology.note})` : ""}`;
+		})
+		.join(", ")}.
+</p>
+`;
+		}
+		return `<li class="flow">${content}</li>`;
+	});
+}
 ---
 
 <BaseLayout title="Zade Viggers">
@@ -10,92 +153,7 @@ import BaseLayout from "../layouts/base-layout.astro";
 		<section class="flow">
 			<h2>Thing's I've made:</h2>
 			<ul class="flow">
-				<li class="flow">
-					<p>
-						While working at <a
-							href="https://crisislab.org.nz/"
-							rel="noopener noreferrer">CRISiSLab</a
-						>:
-					</p>
-					<ul class="flow">
-						<li>
-							<p>
-								<a
-									href="https://admin.crisislab.org.nz/"
-									rel="noopener noreferrer">CRISiSLab sensor admin dashboard</a
-								>
-								- Website frontend (dashboard and authentication pages) desgined
-								and programmed me. Made using
-								<a href="https://mui.com/" rel="noopener noreferrer">MUI</a>,
-								<a href="https://reactjs.org/" rel="noopener noreferrer"
-									>React</a
-								>, and <a href="https://vitejs.dev/" rel="noopener noreferrer"
-									>Vite</a
-								>. Written in <a
-									href="https://typescriptlang.org/"
-									rel="noopener noreferrer">Typescript</a
-								>.
-							</p>
-						</li><li>
-							<p>
-								<a
-									href="https://shakemap.crisislab.org.nz/"
-									rel="noopener noreferrer">CRISiSLab shakemap</a
-								>
-								- Original (No longer used) website frontend designed and programmed
-								by me. Made using
-								<a href="https://mapbox.com/" rel="noopener noreferrer"
-									>Mabpox GL JS</a
-								>, <a href="https://mui.com/" rel="noopener noreferrer">MUI</a> and
-								<a href="https://reactjs.org/" rel="noopener noreferrer"
-									>React</a
-								>.
-							</p>
-						</li>
-					</ul>
-				</li>
-				<li>
-					<p>
-						<a
-							href="https://st-pauls-website.vercel.app/"
-							rel="noopener noreferrer"
-							>St Paul's Lutheran Church Wellington website</a
-						>
-						- Website desgined and programmed me. Made using
-						<a href="https://tailwindcss.com/" rel="noopener noreferrer"
-							>Tailwind CSS</a
-						> and and <a href="https://vitejs.dev/" rel="noopener noreferrer"
-							>Vite</a
-						>. Graphics made in Adobe Illustrator.
-					</p>
-				</li>
-				<li>
-					<p>
-						<a href="https://publictransportforum.nz/" rel="noopener noreferrer"
-							>Public Transport Forum New Zealand website</a
-						>
-						- Designed and programmed by me. Made using
-						<a href="https://astro.build/" rel="noopener noreferrer">Astro</a>.
-						Written in <a
-							href="https://typescriptlang.org/"
-							rel="noopener noreferrer">Typescript</a
-						>. Uses
-						<a href="https://www.netlifycms.org/">Netlify CMS</a>
-						to manage content.
-					</p>
-				</li>
-
-				<li>
-					<p>
-						<a href="https://retailsimulation.co.nz/" rel="noopener noreferrer"
-							>Wellington College Retail Simulation</a
-						>
-						- Website frontend partialy designed and partialy programmed by me. Made
-						using
-						<a href="https://mui.com/" rel="noopener noreferrer">MUI</a> (V4) and
-						<a href="https://reactjs.org/" rel="noopener noreferrer">React</a>.
-					</p>
-				</li>
+				<Fragment set:html={renderProjects(projects).join("\n")} />
 			</ul>
 		</section>
 		<section class="flow">
