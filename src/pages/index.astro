@@ -110,37 +110,37 @@ const projects: (Project | ProjectGroup)[] = [
 
 function renderProjects(projects: (Project | ProjectGroup)[]) {
 	return projects.map((project) => {
-		let content;
 		if ("group" in project) {
-			content = `<h3>${project.heading}.</h3>
-<ul class="flow">
-	${renderProjects(project.projects).join("\n")}
-</ul>`;
+			return `<li class="card-list-wrapper flow">
+	<h3>${project.heading}.</h3>
+	<ul class="card-list">
+		${renderProjects(project.projects).join("\n")}
+	</ul>
+</li>`;
 		} else {
-			content = `
-<h4>
-	<a
-		href="${project.url}"
-		rel="noopener noreferrer">
-		${project.title}.
-	</a>
-</h4>
-<p>
-	${project.comment}
-</p>
-<p>
-	Made using ${project.technologies
-		.map((technologyID) => {
-			const technology = technologies[technologyID];
-			return `<a href="${technology.url}" rel="noopener noreferrer">${
-				technology.name
-			}</a>${technology.note ? ` (${technology.note})` : ""}`;
-		})
-		.join(", ")}.
-</p>
-`;
+			return `<li class="flow card">
+	<h4>
+		<a
+			href="${project.url}"
+			rel="noopener noreferrer">
+			${project.title}.
+		</a>
+	</h4>
+	<p>
+		${project.comment}
+	</p>
+	<p>
+		Made using ${project.technologies
+			.map((technologyID) => {
+				const technology = technologies[technologyID];
+				return `<a href="${technology.url}" rel="noopener noreferrer">${
+					technology.name
+				}</a>${technology.note ? ` (${technology.note})` : ""}`;
+			})
+			.join(", ")}.
+	</p>
+</li>`;
 		}
-		return `<li class="flow">${content}</li>`;
 	});
 }
 ---
@@ -152,7 +152,7 @@ function renderProjects(projects: (Project | ProjectGroup)[]) {
 	<main class="flow">
 		<section class="flow">
 			<h2>Thing's I've made:</h2>
-			<ul class="flow">
+			<ul class="card-list">
 				<Fragment set:html={renderProjects(projects).join("\n")} />
 			</ul>
 		</section>
@@ -176,3 +176,23 @@ function renderProjects(projects: (Project | ProjectGroup)[]) {
 		</section>
 	</main>
 </BaseLayout>
+
+<style>
+	:global(.card-list-wrapper) {
+		padding: var(--spacing);
+		border: 1px solid var(--normal-text-colour);
+	}
+	:global(.card-list) {
+		list-style-type: none;
+		margin-left: 0;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		gap: var(--spacing);
+	}
+	:global(.card) {
+		padding: var(--spacing);
+		border: 1px solid var(--normal-text-colour);
+		max-width: 500px;
+	}
+</style>
