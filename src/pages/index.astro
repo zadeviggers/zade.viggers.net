@@ -42,7 +42,7 @@ const technologies: Record<string, Technology> = {
 };
 type Project = {
 	title: string;
-	url: string;
+	url?: string;
 	comment: string;
 	technologies: (keyof typeof technologies)[];
 };
@@ -60,7 +60,7 @@ const projects: (Project | ProjectGroup)[] = [
 				title: "CRISiSLab sensor management dashboard",
 				url: "https://admin.crisislab.org.nz/",
 				comment:
-					"Website frontend (dashboard and authentication pages) desgined and programmed me.",
+					"Website frontend (including authentication pages) desgined and programmed me.",
 				technologies: [
 					"MUI5",
 					"ReactQuery",
@@ -72,6 +72,11 @@ const projects: (Project | ProjectGroup)[] = [
 			{
 				title: "CRISiSLab shakemap",
 				url: "https://shakemap.crisislab.org.nz/",
+				comment: "Website frontend programmed in part by me.",
+				technologies: ["MapboxGLJS", "MUI5", "ReactRouter6", "React"],
+			},
+			{
+				title: "Old CRISiSLab shakemap",
 				comment:
 					"Original (No longer used) website frontend designed and programmed by me.",
 				technologies: [
@@ -96,14 +101,13 @@ const projects: (Project | ProjectGroup)[] = [
 		title: "Public Transport Forum New Zealand website",
 		url: "https://publictransportforum.nz/",
 		comment:
-			"Website, backend, and content managment system designed and programmed by me.",
+			"Website frontent, backend, and content managment system designed and programmed by me.",
 		technologies: ["Astro", "NetlifyCMS", "Typescript"],
 	},
 	{
 		title: "Wellington College Retail Simulation",
 		url: "https://retailsimulation.co.nz/",
-		comment:
-			"Website frontend partialy designed and partialy programmed by me.",
+		comment: "Website frontend designed in part and programmed in part by me.",
 		technologies: ["MUI4", "React"],
 	},
 ];
@@ -120,11 +124,15 @@ function renderProjects(projects: (Project | ProjectGroup)[]) {
 		} else {
 			return `<li class="flow card">
 	<h4>
-		<a
+		${
+			project.url
+				? `<a
 			href="${project.url}"
-			rel="noopener noreferrer">
+			rel="noopener noreferrer">`
+				: ""
+		}
 			${project.title}.
-		</a>
+		${project.url ? `</a>` : ""}
 	</h4>
 	<p>
 		${project.comment}
