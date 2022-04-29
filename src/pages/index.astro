@@ -152,6 +152,13 @@ function renderProjects(projects: (Project | ProjectGroup)[]) {
 	<main class="flow">
 		<section class="flow">
 			<h2>Thing's I've made:</h2>
+			<aside>
+				<em>
+					Please note that while I built (or helped to build) these
+					websites/apps/etc, I do not necessarily contribute to or endorse the
+					content on them.
+				</em>
+			</aside>
 			<ul class="card-list">
 				<Fragment set:html={renderProjects(projects).join("\n")} />
 			</ul>
@@ -168,8 +175,6 @@ function renderProjects(projects: (Project | ProjectGroup)[]) {
 		<section class="flow">
 			<h2>Other pages</h2>
 			<dl>
-				<dt><a href="/links">/links</a></dt>
-				<dd>A collection of useful links that I've found.</dd>
 				<dt><a href="/tools">/tools</a></dt>
 				<dd>Some useful tools.</dd>
 			</dl>
