@@ -57,6 +57,13 @@ const projects: (Project | ProjectGroup)[] = [
 		heading: "While working at CRISiSLab",
 		projects: [
 			{
+				title: "2022 CRISiSLab challange earthquake simulation visulisation",
+				url: "https://visualisation.pages.dev/",
+				comment:
+					"Designed and programmed entierly by me. For use in the 2022 CRISiSLab challange.",
+				technologies: ["MapboxGLJS"],
+			},
+			{
 				title: "CRISiSLab sensor management dashboard",
 				url: "https://admin.crisislab.org.nz/",
 				comment:
@@ -194,6 +201,8 @@ function renderProjects(projects: (Project | ProjectGroup)[]) {
 	:global(.card-list-wrapper) {
 		padding: var(--spacing);
 		border: 1px solid var(--normal-text-colour);
+		/* TODO: figure out a way to stop this box from being too wide, without making it skinny on big screens, without using a media query */
+		/* width: calc(500px + calc(var(--spacing) * 2)); */
 	}
 	:global(.card-list) {
 		list-style-type: none;
