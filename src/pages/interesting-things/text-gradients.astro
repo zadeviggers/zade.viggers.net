@@ -28,8 +28,8 @@ import InterestingThingsLayout from "../../layouts/interesting-things-layout.ast
 }`}/></pre>
 	<p>
 		While this is <em>fine</em>, there are some oddities. For one, this code
-		uses the non-standard <code>-webkit-text-fill-colour</code> property to make
-		the text transparent for some reason. I'm not sure why the authors of these sites
+		uses the non-standard <code>-webkit-text-fill-color</code> property to make the
+		text transparent for some reason. I'm not sure why the authors of these sites
 		chose to use that instead of just using the <code>color</code> property, as in
 		my testing, they both produced the same results.
 	</p>
@@ -48,11 +48,11 @@ import InterestingThingsLayout from "../../layouts/interesting-things-layout.ast
 	<p>
 		The revelation about the non-standard nature of <code
 			>-webkit-background-clip: text;</code
-		> also explains the use of <code>-webkit-text-fill-colour</code> instead of <code
+		> also explains the use of <code>-webkit-text-fill-color</code> instead of <code
 			>color</code
 		>. Most browsers that support <code>-webkit-background-clip: text;</code> also
-		support <code>-webkit-text-fill-colour</code>, meaning that by not
-		overriding the <code>color</code> property, browsers that don't support <code
+		support <code>-webkit-text-fill-color</code>, meaning that by not overriding
+		the <code>color</code> property, browsers that don't support <code
 			>-webkit-background-clip: text;</code
 		> will fall back to inheriting the <code>color</code> property from the parent.
 	</p>
