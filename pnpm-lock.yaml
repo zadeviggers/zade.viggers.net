@@ -6,7 +6,7 @@ specifiers:
   astro: 1.0.0-beta.36
   astro-xelement: ^3.2.0
   morphdom: ^2.6.1
-  prettier: 2.6.2
+  prettier: 2.5.1
   prettier-plugin-astro: ^0.0.12
   serialize-javascript: ^6.0.0
   solid-js: 1.4.3
@@ -20,7 +20,7 @@ dependencies:
 devDependencies:
   '@babel/core': 7.18.2
   morphdom: 2.6.1
-  prettier: 2.6.2
+  prettier: 2.5.1
   prettier-plugin-astro: 0.0.12
   serialize-javascript: 6.0.0
 
@@ -2978,6 +2978,12 @@ packages:
       '@astrojs/parser': 0.22.0
       prettier: 2.6.2
       sass-formatter: 0.7.2
+    dev: true
+
+  /prettier/2.5.1:
+    resolution: {integrity: sha512-vBZcPRUR5MZJwoyi3ZoyQlc1rXeEck8KgeC9AwwOn+exuxLxq5toTRDTSaVrXHxelDMHy9zlicw8u66yxoSUFg==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
     dev: true
 
   /prettier/2.6.2:

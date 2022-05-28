@@ -1,4 +1,5 @@
 ---
+import { Code } from 'astro/components';
 import InterestingThingsLayout from "../../layouts/interesting-things-layout.astro";
 ---
 
@@ -21,11 +22,11 @@ import InterestingThingsLayout from "../../layouts/interesting-things-layout.ast
 		Both of the above examples use the following css to implement the
 		text-gradient:
 	</p>
-	<pre><code set:text={`#gradient-title-text {
+	<Code lang="css" theme="dark-plus" code={`#gradient-title-text {
 	background: linear-gradient(to right, #f00, #0f0, #6ff);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
-}`}/></pre>
+}`}/>
 	<p>
 		While this is <em>fine</em>, there are some oddities. For one, this code
 		uses the non-standard <code>-webkit-text-fill-color</code> property to make the
