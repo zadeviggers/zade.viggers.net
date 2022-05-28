@@ -1,0 +1,74 @@
+---
+import InterestingThingsLayout from "../../layouts/interesting-things-layout.astro";
+---
+
+<InterestingThingsLayout title="Exploring text gradients">
+	<h1>Exploring text <span id="gradient-title-text">gradients</span></h1>
+	<p>
+		Recently, I've often seen fancy gradient backgrounds for text on landing
+		pages. Some good examples of this gradient text are the <a
+			href="https://vuejs.org/"
+			rel="noopener noreferrer">Vue</a
+		> landing page and the
+		<a href="https://mui.com/" rel="noopener noreferrer">MUI</a> landing page.
+	</p>
+	<p>
+		I was intrigued because it's not possible to use gradients in the <code
+			>color</code
+		> attribute, and the text was selectable, so it wasn't an image.
+	</p>
+	<p>
+		Both of the above examples use the following css to implement the
+		text-gradient:
+	</p>
+	<pre><code set:text={`#gradient-title-text {
+	background: linear-gradient(to right, #f00, #0f0, #6ff);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}`}/></pre>
+	<p>
+		While this is <em>fine</em>, there are some oddities. For one, this code
+		uses the non-standard <code>-webkit-text-fill-colour</code> property to make
+		the text transparent for some reason. I'm not sure why the authors of these sites
+		chose to use that instead of just using the <code>color</code> property, as in
+		my testing, they both produced the same results.
+	</p>
+	<p>
+		Another odd thing I saw was the <code>-webkit-</code> prefix for the <code
+			>background-clip</code
+		> property. I found out that even though <code>background-clip: text;</code>
+		works fine in Firefox, in Chromium-based browsers it doesn't have any effect.
+		It turns out that this is because using the value <code>text</code> for the <code
+			>background-clip</code
+		> property is non-standard, and most browsers require the <code
+			>-webkit-</code
+		> prefix on the <code>background-clip</code> property for it to work with the
+		value <code>text</code> (if they support it at all).
+	</p>
+	<p>
+		The revelation about the non-standard nature of <code
+			>-webkit-background-clip: text;</code
+		> also explains the use of <code>-webkit-text-fill-colour</code> instead of <code
+			>color</code
+		>. Most browsers that support <code>-webkit-background-clip: text;</code> also
+		support <code>-webkit-text-fill-colour</code>, meaning that by not
+		overriding the <code>color</code> property, browsers that don't support <code
+			>-webkit-background-clip: text;</code
+		> will fall back to inheriting the <code>color</code> property from the parent.
+	</p>
+	<p>
+		One last interesting thing I noticed is that I had to update my `::selection`
+		styles to override <code>-webkit-text-fill-color</code> as well as <code
+			>color</code
+		>, because the text was no longer visible when selected, due to it being
+		made transparent for the gradient.
+	</p>
+</InterestingThingsLayout>
+
+<style>
+	#gradient-title-text {
+		background: linear-gradient(to right, #f00, #0f0, #6ff);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+</style>
