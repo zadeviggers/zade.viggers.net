@@ -86,95 +86,118 @@ export default function WordleSolver() {
 	});
 
 	return (
-		<Switch fallback={<p>Something broke</p>}>
-			<Match when={words.loading}>
-				<p>Loading wordlist....</p>
-			</Match>
-			<Match when={words.error}>
-				<p>Error loading wordlist!</p>
-				<pre>{words.error}</pre>
-			</Match>
-			<Match when={!words.loading && !words.error}>
-				<div class="stack">
-					<p>Enter at least {threshold} total letters to see suggestions.</p>
-					<label for="greyed-out-letters">
-						<input
-							id="greyed-out-letters"
-							type="text"
-							regexp="[a-zA-Z]+"
-							value={greyLetters().join("")}
-							onInput={(e) =>
-								setGreyLetters(
-									(e.target.value as string).trim().toUpperCase().split(""),
-								)
-							}
-						/>{" "}
-						Greyed out letters
-					</label>
-					<label for="yellow-letters">
-						<input
-							id="yellow-letters"
-							type="text"
-							regexp="^[a-zA-Z]$"
-							value={yellowLetters().join("")}
-							onInput={(e) =>
-								setYellowLetters(
-									(e.target.value as string).trim().toUpperCase().split(""),
-								)
-							}
-						/>{" "}
-						Yellow letters
-					</label>
-					<label for="green-letters">
-						<input
-							id="green-letters"
-							type="text"
-							placeholder="W??DS"
-							regexp="^[a-zA-Z\?]{0,5}$"
-							maxlength={5}
-							value={greenLetters().join("")}
-							onInput={(e) =>
-								setGreenLetters(
-									(e.target.value as string)
-										.trim()
-										.toUpperCase()
-										.split("")
-										.slice(0, 5),
-								)
-							}
-						/>{" "}
-						Green letters (In order. Put a "?" for unknown letters.)
-					</label>
-					<hr />
-					<h2>
-						Posible words
-						{possibleWords().length > 0 && ` (${possibleWords().length})`}:
-					</h2>
-					<p>More common words will generally be higher up in the list</p>
-					<ul>
-						<For
-							each={possibleWords()}
-							fallback={
-								totalLength() < threshold ? (
-									<>
-										<li>
-											Enter at least {threshold} characters to see suggestions.
-										</li>
-										<li>Need an opening word?</li>
-										<li>
-											I suggest <span className="code">ADIEU</span>.
-										</li>
-									</>
-								) : (
-									<li>No words found :(</li>
-								)
-							}
-						>
-							{(word, index) => <li data-index={index()}>{word}</li>}
-						</For>
-					</ul>
-				</div>
-			</Match>
-		</Switch>
+		<Switch
+			fallback={<p>Something broke</p>}
+			children={
+				<>
+					<Match when={words.loading} children={<p>Loading wordlist....</p>} />
+					<Match
+						when={words.error}
+						children={
+							<>
+								{" "}
+								<p>Error loading wordlist!</p>
+								<pre>{words.error}</pre>
+							</>
+						}
+					/>
+					<Match
+						when={!words.loading && !words.error}
+						children={
+							<div class="stack">
+								<p>
+									Enter at least {threshold} total letters to see suggestions.
+								</p>
+								<label for="greyed-out-letters">
+									<input
+										id="greyed-out-letters"
+										type="text"
+										regexp="[a-zA-Z]+"
+										value={greyLetters().join("")}
+										onInput={(e) =>
+											setGreyLetters(
+												(e.target.value as string)
+													.trim()
+													.toUpperCase()
+													.split(""),
+											)
+										}
+									/>{" "}
+									Greyed out letters
+								</label>
+								<label for="yellow-letters">
+									<input
+										id="yellow-letters"
+										type="text"
+										regexp="^[a-zA-Z]$"
+										value={yellowLetters().join("")}
+										onInput={(e) =>
+											setYellowLetters(
+												(e.target.value as string)
+													.trim()
+													.toUpperCase()
+													.split(""),
+											)
+										}
+									/>{" "}
+									Yellow letters
+								</label>
+								<label for="green-letters">
+									<input
+										id="green-letters"
+										type="text"
+										placeholder="W??DS"
+										regexp="^[a-zA-Z\?]{0,5}$"
+										maxlength={5}
+										value={greenLetters().join("")}
+										onInput={(e) =>
+											setGreenLetters(
+												(e.target.value as string)
+													.trim()
+													.toUpperCase()
+													.split("")
+													.slice(0, 5),
+											)
+										}
+									/>{" "}
+									Green letters (In order. Put a "?" for unknown letters.)
+								</label>
+								<hr />
+								<h2>
+									Posible words
+									{possibleWords().length > 0 && ` (${possibleWords().length})`}
+									:
+								</h2>
+								<p>More common words will generally be higher up in the list</p>
+								<ul>
+									<For
+										each={possibleWords()}
+										fallback={
+											totalLength() < threshold ? (
+												<>
+													<li>
+														Enter at least {threshold} characters to see
+														suggestions.
+													</li>
+													<li>Need an opening word?</li>
+													<li>
+														I suggest <span className="code">ADIEU</span>.
+													</li>
+												</>
+											) : (
+												<li>No words found :(</li>
+											)
+										}
+										children={(word, index) => (
+											<li data-index={index()}>{word}</li>
+										)}
+									/>
+								</ul>
+							</div>
+						}
+					/>
+				</>
+			}
+		/>
 	);
 }
