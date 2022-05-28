@@ -168,7 +168,8 @@ export default function WordleSolver() {
 								) : (
 									<li>No words found :(</li>
 								)
-							}>
+							}
+						>
 							{(word, index) => <li data-index={index()}>{word}</li>}
 						</For>
 					</ul>
