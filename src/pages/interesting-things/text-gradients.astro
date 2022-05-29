@@ -19,8 +19,11 @@ import InterestingThingsLayout from "../../layouts/interesting-things-layout.ast
 		Both of the above examples use the following css to implement the
 		text-gradient:
 	</p>
-	<Code lang="css" theme="dark-plus" code={`#gradient-title-text { background: linear-gradient(to right, #f00, #0f0,
-		#6ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }`} />
+	<Code lang="css" theme="dark-plus" code={`.gradient-text {
+	background: linear-gradient(to right, #f00, #0f0, #6ff);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}`} />
 	<p>
 		The way that these work is pretty clever. The steps are as follows:
 	</p>
