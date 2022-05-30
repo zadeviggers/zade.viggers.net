@@ -8,9 +8,7 @@ export const onRequest = mailChannelsPlugin({
 	],
 	from: ({ formData }) => ({
 		name: (formData.get("name") ?? "Unknown").toString(),
-		email: (
-			formData.get("email") ?? "unknown-email@unknown-email.viggers.net"
-		).toString(),
+		email: "contact-form@zade.viggers.net"
 	}),
 	respondWith: ({ formData }) => {
 		const name = formData.get("name").toString();
