@@ -7,19 +7,16 @@
 		"build": "astro build --verbose",
 		"check": "astro check",
 		"preview": "astro preview",
-		"format": "prettier -w ./**/*"
+		"format": "prettier -w ."
 	},
 	"dependencies": {
-		"@astrojs/solid-js": "0.1.2",
-		"astro": "1.0.0-beta.36",
+		"@astrojs/solid-js": "0.1.4",
+		"astro": "1.0.0-beta.73",
 		"astro-xelement": "^3.2.0",
 		"solid-js": "1.4.3"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.18.2",
-		"morphdom": "^2.6.1",
-		"prettier": "2.5.1",
-		"prettier-plugin-astro": "^0.0.12",
-		"serialize-javascript": "^6.0.0"
+		"prettier": "2.7.1",
+		"prettier-plugin-astro": "0.1.2"
 	}
 }

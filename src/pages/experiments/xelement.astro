@@ -15,14 +15,16 @@ const { button: Button, span: Display, CounterWrapper } = XElement;
 			@click={(event, store) => {
 				store.count--;
 				counterdisplay.textContent = store.count;
-			}}>-</Button
-		>
+			}}
+			>-
+		</Button>
 		<Display id="counterdisplay">0</Display>
 		<Button
 			@click={(event, store) => {
 				store.count++;
 				counterdisplay.textContent = store.count;
-			}}>+</Button
-		></CounterWrapper
-	>
+			}}
+			>+
+		</Button>
+	</CounterWrapper>
 </BaseLayout>
