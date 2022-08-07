@@ -1,23 +1,21 @@
 ---
 import ToolsPageLayout from "../../layouts/tools-page-layout.astro";
 import WordleSolver from "../../components/wordle-solver";
+import "simple-vanilla-notifications/defaults.css"
 ---
 
 <ToolsPageLayout title="Wordle solver">
 	<h1>Wordle solver</h1>
 	<p>
-		Use for finding words for <a
-			href="https://www.powerlanguage.co.uk/wordle/"
-			rel="noopener noreferrer">wordle</a
-		>.
-	</p><p>
-		Note: This tool loads a very big array, so it might break on older devices
-		like iPhone 5's.
+		Use for finding words for <a href="https://www.powerlanguage.co.uk/wordle/"
+			rel="noopener noreferrer">wordle</a>.
+	</p>
+	<p>
+		This tool loads a very big list, so if it's slow, just give it a bit. Also it might not work on old
+		devices.
 	</p>
 	<WordleSolver client:load />
 	<p>
-		Made with <a href="https://www.solidjs.com/" rel="noopener noreferrer"
-			>Solid</a
-		>.
+		Made with <a href="https://www.solidjs.com/" rel="noopener noreferrer">Solid</a>.
 	</p>
 </ToolsPageLayout>

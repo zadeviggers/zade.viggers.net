@@ -1,10 +1,15 @@
 import {
+	createNotificationManager,
+	NotificationManager,
+} from "simple-vanilla-notifications";
+import {
 	For,
 	Match,
 	Switch,
 	createEffect,
 	createResource,
 	createSignal,
+	onCleanup,
 } from "solid-js";
 
 type Letter = string;
@@ -14,11 +19,44 @@ export default function WordleSolver() {
 	const [yellowLetters, setYellowLetters] = createSignal<Letter[]>([]);
 	const [greenLetters, setGreenLetters] = createSignal<Letter[]>([]);
 	const [possibleWords, setPossibleWords] = createSignal<string[]>([]);
-	const [words] = createResource(async () => {
-		const data = await fetch("/five-letter-words.txt");
-		const text = await data.text();
-		return text.split("\n");
+	const [notificationManager, setNotificationManager] =
+		createSignal<NotificationManager>();
+
+	createEffect(() => {
+		setNotificationManager(
+			createNotificationManager({
+				defaultTimeout: 5000,
+			}),
+		);
 	});
+
+	onCleanup(() => notificationManager().destroyAllNotifications());
+
+	const [words] = createResource(notificationManager, async () => {
+		const loadingNotification = notificationManager().createNotification(
+			"Loading wordlist...",
+			{
+				dismissible: false,
+				timeout: false,
+			},
+		);
+		try {
+			const data = await fetch("/five-letter-words.txt");
+			const text = await data.text();
+			loadingNotification.destroy();
+			notificationManager().createNotification("Loaded wordlist");
+			return text.split("\n");
+		} catch (error) {
+			loadingNotification.destroy();
+			notificationManager().createNotification(
+				`Failed to load wordlist: ${error}`,
+				{
+					timeout: false,
+				},
+			);
+		}
+	});
+
 	const totalLength = () =>
 		greyLetters().length + yellowLetters().length + greenLetters().length;
 
@@ -104,7 +142,7 @@ export default function WordleSolver() {
 					<Match
 						when={!words.loading && !words.error}
 						children={
-							<div class="stack">
+							<div class="stack  flow">
 								<p>
 									Enter at least {threshold} total letters to see suggestions.
 								</p>
@@ -112,11 +150,11 @@ export default function WordleSolver() {
 									<input
 										id="greyed-out-letters"
 										type="text"
-										regexp="[a-zA-Z]+"
+										pattern="[a-zA-Z]+"
 										value={greyLetters().join("")}
 										onInput={(e) =>
 											setGreyLetters(
-												(e.target.value as string)
+												((e.target as HTMLInputElement).value as string)
 													.trim()
 													.toUpperCase()
 													.split(""),
@@ -129,11 +167,11 @@ export default function WordleSolver() {
 									<input
 										id="yellow-letters"
 										type="text"
-										regexp="^[a-zA-Z]$"
+										pattern="^[a-zA-Z]$"
 										value={yellowLetters().join("")}
 										onInput={(e) =>
 											setYellowLetters(
-												(e.target.value as string)
+												((e.target as HTMLInputElement).value as string)
 													.trim()
 													.toUpperCase()
 													.split(""),
@@ -147,12 +185,12 @@ export default function WordleSolver() {
 										id="green-letters"
 										type="text"
 										placeholder="W??DS"
-										regexp="^[a-zA-Z\?]{0,5}$"
+										pattern="^[a-zA-Z\?]{0,5}$"
 										maxlength={5}
 										value={greenLetters().join("")}
 										onInput={(e) =>
 											setGreenLetters(
-												(e.target.value as string)
+												((e.target as HTMLInputElement).value as string)
 													.trim()
 													.toUpperCase()
 													.split("")
@@ -164,7 +202,7 @@ export default function WordleSolver() {
 								</label>
 								<hr />
 								<h2>
-									Posible words
+									Possible words
 									{possibleWords().length > 0 && ` (${possibleWords().length})`}
 									:
 								</h2>
@@ -181,7 +219,7 @@ export default function WordleSolver() {
 													</li>
 													<li>Need an opening word?</li>
 													<li>
-														I suggest <span className="code">ADIEU</span>.
+														I suggest <span class="code">ADIEU</span>.
 													</li>
 												</>
 											) : (

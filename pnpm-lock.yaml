@@ -2,11 +2,12 @@ lockfileVersion: 5.4
 
 specifiers:
   '@astrojs/solid-js': 0.4.1
-  '@cloudflare/pages-plugin-mailchannels': ^0.1.1
+  '@cloudflare/pages-plugin-mailchannels': ^0.1.0
   astro: 1.0.0-rc.4
   astro-xelement: ^3.2.0
   prettier: 2.7.1
   prettier-plugin-astro: 0.1.2
+  simple-vanilla-notifications: ^1.1.1
   solid-js: 1.4.8
 
 dependencies:
@@ -14,6 +15,7 @@ dependencies:
   '@cloudflare/pages-plugin-mailchannels': 0.1.1
   astro: 1.0.0-rc.4
   astro-xelement: 3.2.0
+  simple-vanilla-notifications: 1.1.1
   solid-js: 1.4.8
 
 devDependencies:
@@ -2723,6 +2725,10 @@ packages:
 
   /signal-exit/3.0.7:
     resolution: {integrity: sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==}
+    dev: false
+
+  /simple-vanilla-notifications/1.1.1:
+    resolution: {integrity: sha512-3BCRBSC9m3K3Zl8rMEtFOr5z49iBCMkefO1EvlrQjvoG6l3AMkn55bx1xbNIDKdcNwGcik7w+TTa6bjCG1M7kg==}
     dev: false
 
   /sirv/2.0.2:
