@@ -23,36 +23,29 @@ export default function WordleSolver() {
 		createSignal<NotificationManager>();
 
 	createEffect(() => {
-		setNotificationManager(
-			createNotificationManager({
-				defaultTimeout: 5000,
-			}),
-		);
+		setNotificationManager(createNotificationManager());
 	});
 
-	onCleanup(() => notificationManager().destroyAllNotifications());
+	onCleanup(() => notificationManager().dismissAllNotifications());
 
 	const [words, { refetch }] = createResource(notificationManager, async () => {
 		const loadingNotification = notificationManager().createNotification(
 			"Loading wordlist...",
 			{
 				dismissible: false,
-				timeout: false,
+				autoDismissTimeout: -1,
 			},
 		);
 		try {
 			const data = await fetch("/five-letter-words.txt");
 			const text = await data.text();
-			loadingNotification.destroy();
+			loadingNotification.dismiss();
 			notificationManager().createNotification("Loaded wordlist");
 			return text.split("\n");
 		} catch (error) {
-			loadingNotification.destroy();
+			loadingNotification.dismiss();
 			notificationManager().createNotification(
 				`Failed to load wordlist: ${error}`,
-				{
-					timeout: false,
-				},
 			);
 		}
 	});

@@ -11,7 +11,10 @@ const technologies: Record<string, Technology> = {
 	MUI5: { name: "MUI", url: "https://mui.com/", note: "Version 5" },
 	MUI4: { name: "MUI", url: "https://mui.com/", note: "Version 4" },
 	React: { name: "React", url: "https://reactjs.org/" },
-	ReactQuery: { name: "React-Query", url: "https://react-query.tanstack.com/" },
+	ReactQuery: {
+		name: "React-Query",
+		url: "https://react-query.tanstack.com/",
+	},
 	ReactRouter5: {
 		name: "React-Router",
 		url: "reactrouter.com/",
@@ -114,7 +117,8 @@ const projects: (Project | ProjectGroup)[] = [
 	{
 		title: "Wellington College Retail Simulation",
 		url: "https://retailsimulation.co.nz/",
-		comment: "Website frontend designed in part and programmed in part by me.",
+		comment:
+			"Website frontend designed in part and programmed in part by me.",
 		technologies: ["MUI4", "React"],
 	},
 ];
@@ -170,8 +174,8 @@ function renderProjects(projects: (Project | ProjectGroup)[]) {
 			<aside>
 				<em>
 					Please note that while I built (or helped to build) these
-					websites/apps/etc, I do not necessarily contribute to or endorse the
-					content on them.
+					websites/apps/etc, I do not necessarily contribute to or
+					endorse the content on them.
 				</em>
 			</aside>
 			<ul class="card-list">
@@ -184,16 +188,19 @@ function renderProjects(projects: (Project | ProjectGroup)[]) {
 				<dt>Discord</dt>
 				<dd class="mono">ZV#1562</dd>
 				<dt>Email</dt>
-				<dd class="mono">Originally I had my email here, but I got too much spam, so now I have a <a href="/contact">contact form</a>.</dd>
+				<dd class="mono">
+					Originally I had my email here, but I got too much spam, so
+					now I have a <a href="/contact">contact form</a>.
+				</dd>
 			</dl>
 		</section>
 		<section class="flow">
 			<h2>Other pages</h2>
 			<dl>
-				<dt><a href="/tools">/tools</a></dt>
-				<dd>Some useful tools.</dd>
-				<dt><a href="/interesting-things">/interesting-things</a></dt>
-				<dd>Interesting things that I've discovered and written about.</dd>
+				<dt><a href="/tools/wordle-solver">Wordle solver</a></dt>
+				<dd>Helper for finding words for Wordle</dd>
+				<dt><a href="/interesting-things">Interesting Things</a></dt>
+				<dd>Interesting things that I've written about.</dd>
 			</dl>
 		</section>
 	</main>
