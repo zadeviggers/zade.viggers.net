@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+a {
+	@apply text-teal-700;
+}
+a:hover,
+a:focus {
+	@apply underline;
+}
+
+@tailwind utilities;

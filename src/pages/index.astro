@@ -1,105 +1,9 @@
 ---
 import BaseLayout from "../layouts/base-layout.astro";
-
-type Technology = {
-	name: string;
-	url: string;
-	note?: string;
-};
-const technologies: Record<string, Technology> = {
-	Typescript: { name: "Typescript", url: "https://typescriptlang.org/" },
-	MUI5: { name: "MUI", url: "https://mui.com/", note: "Version 5" },
-	MUI4: { name: "MUI", url: "https://mui.com/", note: "Version 4" },
-	React: { name: "React", url: "https://reactjs.org/" },
-	ReactQuery: {
-		name: "React-Query",
-		url: "https://react-query.tanstack.com/",
-	},
-	ReactRouter5: {
-		name: "React-Router",
-		url: "reactrouter.com/",
-		note: "Version 5",
-	},
-	ReactRouter6: {
-		name: "React-Router",
-		url: "reactrouter.com/",
-		note: "Version 6",
-	},
-	MapboxGLJS: {
-		name: "Mapbox GL JS",
-		url: "https://mapbox.com/",
-	},
-	Tailwind3: {
-		name: "Tailwind CSS",
-		url: "https://tailwindcss.com/",
-		note: "Version 3",
-	},
-	Astro: {
-		name: "Astro",
-		url: "https://astro.build/",
-	},
-	NetlifyCMS: {
-		name: "Netlify CMS",
-		url: "https://www.netlifycms.org/",
-	},
-};
-type Project = {
-	title: string;
-	url?: string;
-	comment: string;
-	technologies: (keyof typeof technologies)[];
-};
-type ProjectGroup = {
-	group: true;
-	heading: string;
-	projects: Project[];
-};
-const projects: (Project | ProjectGroup)[] = [
-	{
-		group: true,
-		heading: "While working at CRISiSLab",
-		projects: [
-			{
-				title: "2022 CRISiSLab challange earthquake simulation visulisation",
-				url: "https://visualisation.pages.dev/",
-				comment:
-					"Designed and programmed entierly by me. For use in the 2022 CRISiSLab challange.",
-				technologies: ["MapboxGLJS"],
-			},
-			{
-				title: "CRISiSLab sensor management dashboard",
-				url: "https://admin.crisislab.org.nz/",
-				comment:
-					"Website frontend (including authentication pages) desgined and programmed me.",
-				technologies: [
-					"MUI5",
-					"ReactQuery",
-					"ReactRouter6",
-					"React",
-					"Typescript",
-				],
-			},
-			{
-				title: "CRISiSLab shakemap",
-				url: "https://shakemap.crisislab.org.nz/",
-				comment: "Website frontend programmed in part by me.",
-				technologies: ["MapboxGLJS", "MUI5", "ReactRouter6", "React"],
-			},
-			{
-				title: "Old CRISiSLab shakemap",
-				comment:
-					"Original (No longer used) website frontend designed and programmed by me.",
-				technologies: [
-					"MapboxGLJS",
-					"MUI5",
-					"ReactQuery",
-					"ReactRouter6",
-					"React",
-					"Typescript",
-				],
-			},
-		],
-	},
+import { Project as ProjectType, ProjectGroup as ProjectGroupType } from "../types/projects";
+import Project from "../components/Project.astro"
+import ProjectGroup from "../components/ProjectGroup.astro";
+const projects: ProjectType[] = [
 	{
 		title: "St Paul's Lutheran Church Wellington website",
 		url: "https://www.wellingtonlutheran.org.nz/",
@@ -123,45 +27,49 @@ const projects: (Project | ProjectGroup)[] = [
 	},
 ];
 
-function renderProjects(projects: (Project | ProjectGroup)[]) {
-	return projects.map((project) => {
-		if ("group" in project) {
-			return `<li class="card-list-wrapper flow">
-	<h3>${project.heading}.</h3>
-	<ul class="card-list">
-		${renderProjects(project.projects).join("\n")}
-	</ul>
-</li>`;
-		} else {
-			return `<li class="flow card">
-	<h4>
-		${
-			project.url
-				? `<a
-			href="${project.url}"
-			rel="noopener noreferrer">`
-				: ""
-		}
-			${project.title}.
-		${project.url ? `</a>` : ""}
-	</h4>
-	<p>
-		${project.comment}
-	</p>
-	<p>
-		Made using ${project.technologies
-			.map((technologyID) => {
-				const technology = technologies[technologyID];
-				return `<a href="${technology.url}" rel="noopener noreferrer">${
-					technology.name
-				}</a>${technology.note ? ` (${technology.note})` : ""}`;
-			})
-			.join(", ")}.
-	</p>
-</li>`;
-		}
-	});
-}
+const crisislabProjects: ProjectType[] = [
+	{
+		title: "2022 CRISiSLab challange earthquake simulation visulisation",
+		url: "https://visualisation.pages.dev/",
+		comment:
+			"Designed and programmed entierly by me. For use in the 2022 CRISiSLab challange.",
+		technologies: ["MapboxGLJS"],
+	},
+	{
+		title: "CRISiSLab sensor management dashboard",
+		url: "https://admin.crisislab.org.nz/",
+		comment:
+			"Website frontend (including authentication pages) desgined and programmed me.",
+		technologies: [
+			"MUI5",
+			"ReactQuery",
+			"ReactRouter6",
+			"React",
+			"Typescript",
+		],
+	},
+	{
+		title: "CRISiSLab shakemap",
+		url: "https://shakemap.crisislab.org.nz/",
+		comment: "Website frontend programmed in part by me.",
+		technologies: ["MapboxGLJS", "MUI5", "ReactRouter6", "React"],
+	},
+	{
+		title: "Old CRISiSLab shakemap",
+		comment:
+			"Original (No longer used) website frontend designed and programmed by me.",
+		technologies: [
+			"MapboxGLJS",
+			"MUI5",
+			"ReactQuery",
+			"ReactRouter6",
+			"React",
+			"Typescript",
+		],
+	},
+];
+
+
 ---
 
 <BaseLayout title="Zade Viggers">
@@ -178,9 +86,16 @@ function renderProjects(projects: (Project | ProjectGroup)[]) {
 					endorse the content on them.
 				</em>
 			</aside>
-			<ul class="card-list">
-				<Fragment set:html={renderProjects(projects).join("\n")} />
-			</ul>
+			<div class="flex flex-col gap-2">
+				<ProjectGroup heading="While working at CRISiSLab">
+					{crisislabProjects.map(project => <Project {project}/>)}
+				</ProjectGroup>
+			
+
+				<ul class="flex flex-wrap gap-2">
+					{projects.map(project => <Project {project}/>)}
+				</ul>
+			</div>
 		</section>
 		<section class="flow">
 			<h2>Contact me</h2>
