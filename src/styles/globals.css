@@ -6,7 +6,7 @@
 }
 
 a {
-	@apply text-lime-600;
+	@apply text-theme-600;
 }
 a:hover,
 a:focus {
@@ -18,7 +18,7 @@ label {
 }
 
 label:focus-within {
-	@apply text-lime-500;
+	@apply text-theme-500;
 }
 
 input {
@@ -29,18 +29,18 @@ input:hover {
 }
 
 input:focus {
-	@apply border-lime-500 text-lime-900;
+	@apply border-theme-500 text-theme-900;
 }
 
 button {
-	@apply p-2 px-4 bg-lime-100 border-t-[4px] border-transparent rounded-md duration-75;
+	@apply p-2 px-4 bg-theme-100 border-t-[4px] border-transparent rounded-md duration-75;
 }
 button:hover,
 button:focus-visible {
-	@apply bg-lime-200 border-t-0 border-b-[4px] border-lime-400 shadow;
+	@apply bg-theme-200 border-t-0 border-b-[4px] border-theme-400 shadow;
 }
 button:active {
-	@apply bg-lime-200 border-b-0 border-t-[4px] border-transparent shadow-none;
+	@apply bg-theme-200 border-b-0 border-t-[4px] border-transparent shadow-none;
 }
 
 @tailwind utilities;

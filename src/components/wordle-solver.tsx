@@ -204,7 +204,7 @@ export default function WordleSolver() {
 											` (${possibleWords().length})`}
 										:
 									</h2>
-									<p class="border-l-4 pl-2 border-lime-500 rounded-md bg-lime-50 p-2">
+									<p class="border-l-4 pl-2 border-theme-500 rounded-md bg-theme-50 p-2">
 										More common words will generally be higher up in the list.
 									</p>
 									<ul>
