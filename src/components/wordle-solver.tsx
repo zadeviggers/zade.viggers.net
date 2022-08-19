@@ -117,9 +117,9 @@ export default function WordleSolver() {
 	});
 
 	return (
-		<div class="flow">
+		<div class="lg:max-w-2xl">
 			<Switch
-				fallback={<p>Something broke</p>}
+				fallback={<p class="error">Something broke</p>}
 				children={
 					<>
 						<Match
@@ -130,8 +130,7 @@ export default function WordleSolver() {
 							when={words.error}
 							children={
 								<>
-									{" "}
-									<p>Error loading wordlist!</p>
+									<p class="error">Error loading wordlist!</p>
 									<pre>{words.error}</pre>
 								</>
 							}
@@ -139,11 +138,12 @@ export default function WordleSolver() {
 						<Match
 							when={!words.loading && !words.error}
 							children={
-								<div class="stack  flow">
+								<div class="flex flex-col">
 									<p>
 										Enter at least {threshold} total letters to see suggestions.
 									</p>
 									<label for="greyed-out-letters">
+										Greyed out letters
 										<input
 											id="greyed-out-letters"
 											type="text"
@@ -157,10 +157,10 @@ export default function WordleSolver() {
 														.split(""),
 												)
 											}
-										/>{" "}
-										Greyed out letters
+										/>
 									</label>
 									<label for="yellow-letters">
+										Yellow letters
 										<input
 											id="yellow-letters"
 											type="text"
@@ -174,10 +174,12 @@ export default function WordleSolver() {
 														.split(""),
 												)
 											}
-										/>{" "}
-										Yellow letters
+										/>
 									</label>
-									<label for="green-letters">
+									<label
+										for="green-letters"
+										title="In order. Put a '?' for unknown letters.">
+										Green letters
 										<input
 											id="green-letters"
 											type="text"
@@ -195,17 +197,15 @@ export default function WordleSolver() {
 												)
 											}
 										/>{" "}
-										Green letters (In order. Put a "?" for unknown letters.)
 									</label>
-									<hr />
-									<h2>
+									<h2 class="font-bold">
 										Possible words
 										{possibleWords().length > 0 &&
 											` (${possibleWords().length})`}
 										:
 									</h2>
-									<p>
-										More common words will generally be higher up in the list
+									<p class="border-l-4 pl-2 border-lime-500 rounded-md bg-lime-50 p-2">
+										More common words will generally be higher up in the list.
 									</p>
 									<ul>
 										<For
@@ -213,13 +213,9 @@ export default function WordleSolver() {
 											fallback={
 												totalLength() < threshold ? (
 													<>
-														<li>
+														<li class="border-l-4 pl-2 border-rose-500 rounded-md bg-rose-50 p-2 mt-2">
 															Enter at least {threshold} characters to see
 															suggestions.
-														</li>
-														<li>Need an opening word?</li>
-														<li>
-															I suggest <span class="code">ADIEU</span>.
 														</li>
 													</>
 												) : (
@@ -237,7 +233,9 @@ export default function WordleSolver() {
 					</>
 				}
 			/>
-			<button onClick={refetch}>Reload wordlist</button>
+			<button onClick={refetch} class="mt-2">
+				Reload wordlist
+			</button>
 		</div>
 	);
 }
