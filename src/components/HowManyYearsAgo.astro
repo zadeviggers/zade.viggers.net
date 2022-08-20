@@ -5,7 +5,7 @@ interface Props {
 const {date} = Astro.props;
 ---
 
-<time data-show-time-since time={date.toString()}>{date.getFullYear()}</time>
+<time data-show-time-since time={date.toString()}> {date.getFullYear()}</time>.
 
 <style>
     time {
