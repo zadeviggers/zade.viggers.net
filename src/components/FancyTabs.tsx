@@ -36,7 +36,6 @@ export default function BoringTabs({
 	createEffect(() => {
 		if (!boring && indicator() && activeButtonRef() && tabControlsRect()) {
 			const activeButtonRect = activeButtonRef().getBoundingClientRect();
-			console.log(activeButtonRect);
 			indicator().style.left =
 				activeButtonRect.left - tabControlsRect().left + "px";
 			indicator().style.width = activeButtonRect.width + "px";

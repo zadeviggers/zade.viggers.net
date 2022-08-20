@@ -112,7 +112,7 @@ requests reduced motion.
 Yeah, if you're using a framework it gets a tad more complicated, because you
 have to deal with _refs_ and stuff.
 
-Here's a Solid example:
+Here's a example made in Solid:
 
 ```tsx
 import {
@@ -153,7 +153,6 @@ export default function BoringTabs({
 	createEffect(() => {
 		if (!boring && indicator() && activeButtonRef() && tabControlsRect()) {
 			const activeButtonRect = activeButtonRef().getBoundingClientRect();
-			console.log(activeButtonRect);
 			indicator().style.left =
 				activeButtonRect.left - tabControlsRect().left + "px";
 			indicator().style.width = activeButtonRect.width + "px";
