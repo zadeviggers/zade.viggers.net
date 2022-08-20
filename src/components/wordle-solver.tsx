@@ -233,7 +233,7 @@ export default function WordleSolver() {
 					</>
 				}
 			/>
-			<button onClick={refetch} class="mt-2">
+			<button onClick={refetch} class="mt-2 button">
 				Reload wordlist
 			</button>
 		</div>

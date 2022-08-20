@@ -1,0 +1,231 @@
+---
+layout: ../../layouts/interesting-things-layout.astro
+title: Fancy Tabs
+---
+
+export const tabs = {
+	"Tab 1": "Tab one content",
+	"Tab 2": "Tab 2 content",
+	"tab 3": "Yay number three!",
+	"Loooooong tab": "Content here",
+};
+
+import Tabs from "../../components/FancyTabs.tsx";
+import HowManyYearsAgo from "../../components/HowManyYearsAgo.astro";
+
+# Fancy tabs
+
+## INTRODUCTION
+
+Most tabs suck. They work, but they're ugly. Here's an example:
+
+<Tabs client:load tabs={tabs} boring />
+
+These tabs are functional. Obiously in a real senario you'd style them a tad
+prettier, but that is effectivley what they'd look like. Or you might opt for an
+underline instead, like Google does:
+
+<Tabs client:load tabs={tabs} boring underlined />
+
+## The problem
+
+These tabs are unsatisfying, boring, and look like they're from
+[Bootstrap 1.0](https://getbootstrap.com/1.0.0/#navigation), which came out in
+
+<HowManyYearsAgo date={new Date("August 19 2011")} />.
+
+Tabs that look like this make me sad. They make your designers sad. They make
+your users sad. They make you sad.
+
+## The solution
+
+Make the tabs fun! Make the background (or underline) move when the user chanegs
+tab, rather than teleporting it.
+
+<Tabs client:load tabs={tabs} />
+
+<Tabs client:load tabs={tabs} underlined />
+
+It looks scary, but it's not actually that bad to implement. All you have to do
+in your javascript is set a `left` and `width` value on an indicator element
+using inline styles.
+
+```ts
+// This example is slightly simplified but it works.
+
+// Get the dimentions of the container element that holds the tab buttons.
+const containerRect = tabButtonsContainerElement.getBoundingClientRect();
+
+// Call this when a tab is clicked
+function updateIndicator(activeTabButton: HTMLElement) {
+	// Get the dimentions of the button
+	const buttonRect = activeTabButton.getBoundingClientRect();
+
+	// Change the indicator's width to match the button
+	indicator.style.width = buttonRect.width + "px";
+
+	// Change the left-offset of the indicator to that of the button minus the parent's left-offset.
+	// This is to account for things like padding on the body.
+	indicator.style.left = buttonRect.left - containerRect.left + "px";
+}
+```
+
+Then we can let CSS handle all of the animations, and disable them when a user
+requests reduced motion.
+
+```css
+.tabs {
+	width: 100%;
+	position: relative;
+}
+
+.tab {
+	padding: 12px;
+	background-color: transparent;
+	color: black;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 8px;
+}
+.tab:hover {
+	background-color: #efefef;
+}
+
+.indicator {
+	position: absolute;
+	bottom: 0;
+	height: 2px;
+	background-color: black;
+	transition-duration: 200ms;
+}
+
+@media (prefers-reduced-motion) {
+	.indicator {
+		transition-duration: 0;
+	}
+}
+```
+
+## But what about React/Vue/Solid/whatever??!?!
+
+Yeah, if you're using a framework it gets a tad more complicated, because you
+have to deal with _refs_ and stuff.
+
+Here's a Solid example:
+
+```tsx
+import {
+	createEffect,
+	createSignal,
+	For,
+	Show,
+	createUniqueId,
+} from "solid-js";
+import "../styles/fancy-tabs.css";
+
+export default function BoringTabs({
+	tabs = { a: "b" },
+	defaultTab,
+	boring = false,
+	underlined,
+}: {
+	tabs: Record<string, string>;
+	defaultTab?: string;
+	boring?: boolean;
+	underlined?: boolean;
+}) {
+	const [activeTab, setActiveTab] = createSignal<keyof typeof tabs>(
+		defaultTab || Object.keys(tabs)[0],
+	);
+	const [tabControlsRef, setTabControlsRef] = createSignal<
+		HTMLDivElement | undefined
+	>();
+	const [tabsButtonsRefs, setTabsRefs] = createSignal<
+		Record<string, HTMLElement | undefined>
+	>({});
+	const [indicator, setIndicator] = createSignal<HTMLSpanElement | undefined>();
+
+	const tabControlsRect = () => tabControlsRef()?.getBoundingClientRect();
+	const activeButtonRef = () => tabsButtonsRefs()[activeTab()];
+	const id = createUniqueId();
+
+	createEffect(() => {
+		if (!boring && indicator() && activeButtonRef() && tabControlsRect()) {
+			const activeButtonRect = activeButtonRef().getBoundingClientRect();
+			console.log(activeButtonRect);
+			indicator().style.left =
+				activeButtonRect.left - tabControlsRect().left + "px";
+			indicator().style.width = activeButtonRect.width + "px";
+		}
+	});
+
+	return (
+		<div
+			class={`${boring ? "boring" : "fancy"} ${
+				underlined ? "underlined" : "background"
+			} tabs`}>
+			<div
+				class="tabs-controls"
+				role="tablist"
+				aria-label="Tabs"
+				ref={setTabControlsRef}>
+				<For each={Object.keys(tabs)}>
+					{(key) => (
+						<button
+							id={`${id}-tab-button-${key}`}
+							role="tab"
+							ref={(el) =>
+								setTabsRefs((oldRefs) => ({ ...oldRefs, [key]: el }))
+							}
+							class={activeTab() == key && "active"}
+							aria-selected={activeTab() == key ? "true" : "false"}
+							aria-controls={`${id}-tab-panel-${key}`}
+							onClick={() => setActiveTab(key)}>
+							{key}
+						</button>
+					)}
+				</For>
+				<Show when={!boring}>
+					<span class="tabs-indicator" ref={setIndicator}></span>
+				</Show>
+			</div>
+
+			<For each={Object.entries(tabs)}>
+				{([key, value]) => (
+					<div
+						role="tabpanel"
+						id={`${id}-tab-panel-${key}`}
+						class="tabs-panel"
+						style={{ display: activeTab() === key ? "block" : "none" }}>
+						{value}
+					</div>
+				)}
+			</For>
+		</div>
+	);
+}
+```
+
+(I got lazy and just copied and pasted the component that I made to use in this
+article which is kinda ugly and bad, but it should still show you the gist of
+it).
+
+Also, if you're using React (not sure if this applies to other frameworks or
+not), and you're changing the width of the tab button when it's active, by
+bolding the text inside it or something, you'll want to use `useLayoutEffect`
+instead of regular `useEffect` for updating the indicator so that the calculated
+width and offset are correct.
+
+## Extra for ~~experts~~ nerds
+
+If you're feeling very fancy, you can also try copying Vercel's tabs and have
+the indicator follow your cursor, snapping to the closest tab button, which is
+also a very nice effect.
+
+## Conclusion
+
+Please make your tabs less boring. It's 2022 and most of the tabs out there look
+like they're from 2011. It's not hard. Your users will love you for it. It will
+multiply your dating prospects by 100x (although 100 times 0 is still 0...)

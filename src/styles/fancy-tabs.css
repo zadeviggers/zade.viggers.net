@@ -1,0 +1,57 @@
+.tabs-controls {
+	display: flex;
+	gap: 8px;
+	position: relative;
+}
+
+.tabs-controls button {
+	padding: 8px;
+	border: 1px solid transparent;
+	border-radius: 8px;
+}
+
+.tabs-controls button:hover,
+.tabs-controls button:focus-visible {
+	border: 1px solid lightgrey;
+	border-radius: 8px;
+}
+
+.tabs-controls button:active {
+	border: 1px solid darkgrey;
+}
+
+.boring.background .tabs-controls button.active {
+	background-color: grey;
+	color: white;
+}
+
+.boring.underlined .tabs-controls button.active {
+	border-bottom: 1px solid black;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.fancy .tabs-indicator {
+	transition-duration: 200ms;
+	position: absolute;
+}
+
+@media (prefers-reduced-motion) {
+	.fancy .tabs-indicator {
+		transition-duration: 0;
+	}
+}
+
+.fancy.underlined .tabs-indicator {
+	height: 1px;
+	background-color: black;
+	bottom: 0;
+}
+
+.fancy.background .tabs-indicator {
+	height: 100%;
+	transition-duration: 200ms;
+	border-radius: 4px;
+	background-color: lightgrey;
+	z-index: -10;
+}

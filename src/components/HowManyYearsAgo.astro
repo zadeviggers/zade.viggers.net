@@ -1,0 +1,26 @@
+---
+interface Props {
+    date: Date;
+}
+const {date} = Astro.props;
+---
+
+<time data-show-time-since time={date.toString()}>{date.getFullYear()}</time>
+
+<style>
+    time {
+        border-bottom: 1px dashed black;
+    }
+</style>
+
+<script>
+    import { formatDistance } from 'date-fns';
+
+    document.querySelectorAll("[data-show-time-since]").forEach(element => {
+        const timeString = element.getAttribute("time");
+        const date = new Date(timeString);
+        const timeGap = formatDistance(date, new Date(), { addSuffix: true });
+        console.log(timeGap);
+        element.setAttribute("title", timeGap)
+    });
+</script>

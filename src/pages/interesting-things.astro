@@ -1,6 +1,6 @@
 ---
 import MainPageLayout from "../layouts/main-page-layout.astro";
-const articles = await Astro.glob("./interesting-things/*.md");
+const articles = (await Promise.all([Astro.glob("./interesting-things/*.md"), Astro.glob("./interesting-things/*.mdx")])).flat();
 ---
 
 <MainPageLayout title="Interesting things">

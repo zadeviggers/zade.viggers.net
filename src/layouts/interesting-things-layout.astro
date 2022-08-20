@@ -1,13 +1,12 @@
 ---
-export interface Props {
-	title: string;
-}
 import BaseLayout from "./base-layout.astro";
-const { title } = Astro.props;
+const { frontmatter } = Astro.props;
 ---
 
-<BaseLayout {title}>
-	<slot />
+<BaseLayout title={frontmatter.title}>
+	<article class="prose prose-slate">
+		<slot />
+	</article>
 	<footer>
 		<a href="/interesting-things">← Back to interesting things page</a>
 	</footer>
