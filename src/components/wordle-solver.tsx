@@ -13,7 +13,7 @@ import {
 } from "solid-js";
 
 type Letter = string;
-const threshold = 5;
+const threshold = 2;
 export default function WordleSolver() {
 	const [greyLetters, setGreyLetters] = createSignal<Letter[]>([]);
 	const [yellowLetters, setYellowLetters] = createSignal<Letter[]>([]);
@@ -54,7 +54,7 @@ export default function WordleSolver() {
 		greyLetters().length + yellowLetters().length + greenLetters().length;
 
 	createEffect(() => {
-		if (totalLength() >= 5) {
+		if (totalLength() >= threshold) {
 			const requiredLetters = [
 				...yellowLetters(),
 				...greenLetters().filter((l) => l !== "?"),
