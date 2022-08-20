@@ -4,6 +4,8 @@ import {
 	For,
 	Show,
 	createUniqueId,
+	onMount,
+	onCleanup,
 } from "solid-js";
 import "../styles/fancy-tabs.css";
 
@@ -33,14 +35,19 @@ export default function BoringTabs({
 	const activeButtonRef = () => tabsButtonsRefs()[activeTab()];
 	const id = createUniqueId();
 
-	createEffect(() => {
+	function updateIndicator() {
 		if (!boring && indicator() && activeButtonRef() && tabControlsRect()) {
 			const activeButtonRect = activeButtonRef().getBoundingClientRect();
 			indicator().style.left =
 				activeButtonRect.left - tabControlsRect().left + "px";
 			indicator().style.width = activeButtonRect.width + "px";
 		}
-	});
+	}
+
+	createEffect(updateIndicator);
+
+	onMount(() => window.addEventListener("resize", updateIndicator));
+	onCleanup(() => window.removeEventListener("resize", updateIndicator));
 
 	return (
 		<div
