@@ -8,30 +8,40 @@ const { project } = Astro.props as Props;
 ---
 
 <li class="p-2 bg-slate-200 rounded-md">
-	<strong class:list={["font-bold", project.url && "hover:underline focus:underline"]}>
-		{project.url
-			? <a
-			href={project.url}
-			rel="noopener noreferrer">
-			
-		{project.title}</a> : project.title}
+	<strong
+		class:list={["font-bold", project.url && "hover:underline focus:underline"]}
+	>
+		{
+			project.url ? (
+				<a href={project.url} rel="noopener noreferrer">
+					{project.title}
+				</a>
+			) : (
+				project.title
+			)
+		}
 	</strong>
 	<p>
 		{project.comment}
 	</p>
 	<p>
 		Made using <span class="technology-list">
-			{project.technologies
-				.map((technologyID) => {
+			{
+				project.technologies.map((technologyID) => {
 					const technology = technologies[technologyID];
-					return <span><a href={technology.url} rel="noopener noreferrer">{
-						technology.name
-					}</a>{technology.note && ` (${technology.note})`}</span>;
-				})}
-			</span>
+					return (
+						<span>
+							<a href={technology.url} rel="noopener noreferrer">
+								{technology.name}
+							</a>
+							{technology.note && ` (${technology.note})`}
+						</span>
+					);
+				})
+			}
+		</span>
 	</p>
 </li>
-
 
 <style>
 	.technology-list > *:not(:last-child)::after {

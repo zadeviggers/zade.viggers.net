@@ -3,15 +3,15 @@ import MainPageLayout from "../layouts/main-page-layout.astro";
 ---
 
 <MainPageLayout title="Message submitted">
-    <h1 id="thanks-text">Thanks for your message.</h1>
-    <p>I'll try to get back to you soon.</p>
+	<h1 id="thanks-text">Thanks for your message.</h1>
+	<p>I'll try to get back to you soon.</p>
 </MainPageLayout>
 
 <script is:inline>
-    const thanksText = document.getElementById("thanks-text");
-    const params = new URLSearchParams(location.search);
-    const name = params.get("name");
-    if (!!name) {
-        thanksText.innerText = `Thanks for your message, ${name}.`
-    }
+	const thanksText = document.getElementById("thanks-text");
+	const params = new URLSearchParams(location.search);
+	const name = params.get("name");
+	if (!!name) {
+		thanksText.innerText = `Thanks for your message, ${name}.`;
+	}
 </script>

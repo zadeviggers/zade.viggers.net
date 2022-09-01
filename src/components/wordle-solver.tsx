@@ -160,7 +160,8 @@ export default function WordleSolver() {
 				</label>
 				<label
 					for="green-letters"
-					title="In order. Put a '?' for unknown letters.">
+					title="In order. Put a '?' for unknown letters."
+				>
 					Green letters
 					<input
 						disabled={loading()}
@@ -199,7 +200,7 @@ export default function WordleSolver() {
 									</li>
 								</>
 							) : (
-								<li>No words found :(</li>
+								<li>No words found :{"("}</li>
 							)
 						}
 						children={(word, index) => <li data-index={index()}>{word}</li>}

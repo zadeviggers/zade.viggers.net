@@ -53,12 +53,14 @@ export default function BoringTabs({
 		<div
 			class={`${boring ? "boring" : "fancy"} ${
 				underlined ? "underlined" : "background"
-			} tabs`}>
+			} tabs`}
+		>
 			<div
 				class="tabs-controls"
 				role="tablist"
 				aria-label="Tabs"
-				ref={setTabControlsRef}>
+				ref={setTabControlsRef}
+			>
 				<For each={Object.keys(tabs)}>
 					{(key) => (
 						<button
@@ -70,7 +72,8 @@ export default function BoringTabs({
 							class={activeTab() == key && "active"}
 							aria-selected={activeTab() == key ? "true" : "false"}
 							aria-controls={`${id}-tab-panel-${key}`}
-							onClick={() => setActiveTab(key)}>
+							onClick={() => setActiveTab(key)}
+						>
 							{key}
 						</button>
 					)}
@@ -86,7 +89,8 @@ export default function BoringTabs({
 						role="tabpanel"
 						id={`${id}-tab-panel-${key}`}
 						class="tabs-panel"
-						style={{ display: activeTab() === key ? "block" : "none" }}>
+						style={{ display: activeTab() === key ? "block" : "none" }}
+					>
 						{value}
 					</div>
 				)}

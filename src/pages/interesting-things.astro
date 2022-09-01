@@ -1,16 +1,22 @@
 ---
 import MainPageLayout from "../layouts/main-page-layout.astro";
-const articles = (await Promise.all([Astro.glob("./interesting-things/*.md"), Astro.glob("./interesting-things/*.mdx")])).flat();
+const articles = (
+	await Promise.all([
+		Astro.glob("./interesting-things/*.md"),
+		Astro.glob("./interesting-things/*.mdx"),
+	])
+).flat();
 ---
 
 <MainPageLayout title="Interesting things">
 	<h1>Interesting things I've written about</h1>
 	<ul>
-		{articles.map(
-			article => (
-			<li>
-				<a href={article.url}>{article.frontmatter.title}</a>
-			</li>
-		))}
+		{
+			articles.map((article) => (
+				<li>
+					<a href={article.url}>{article.frontmatter.title}</a>
+				</li>
+			))
+		}
 	</ul>
 </MainPageLayout>
