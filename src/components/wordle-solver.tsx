@@ -32,15 +32,17 @@ export default function WordleSolver() {
 
 	createEffect(() => {
 		setNotificationManager(createNotificationManager());
+		// In case the browser saved values in the text fields
+		handleChange();
 	});
 
 	onCleanup(() => {
-		notificationManager().dismissAllNotifications();
-		setTimeout(() => notificationManager().destroy(), 1000);
+		notificationManager()?.dismissAllNotifications();
+		setTimeout(() => notificationManager()?.destroy(), 1000);
 	});
 
 	const [words, { refetch }] = createResource(notificationManager, async () => {
-		const loadingNotification = notificationManager().createNotification(
+		const loadingNotification = notificationManager()?.createNotification(
 			"Loading wordlist...",
 			{
 				dismissible: false,
@@ -50,12 +52,12 @@ export default function WordleSolver() {
 		try {
 			const data = await fetch("/five-letter-words.txt");
 			const text = await data.text();
-			loadingNotification.dismiss();
-			notificationManager().createNotification("Loaded wordlist");
+			loadingNotification?.dismiss();
+			notificationManager()?.createNotification("Loaded wordlist");
 			return text.split("\n");
 		} catch (error) {
-			loadingNotification.dismiss();
-			notificationManager().createNotification(
+			loadingNotification?.dismiss();
+			notificationManager()?.createNotification(
 				`Failed to load wordlist: ${error}`,
 			);
 		}
@@ -76,7 +78,7 @@ export default function WordleSolver() {
 			const greyFiltered =
 				greyLetters().length === 0
 					? words()
-					: words().filter((word) => {
+					: words()?.filter((word) => {
 							if (
 								greyLetters()
 									.filter((letter) => !requiredLetters.includes(letter))
@@ -96,7 +98,7 @@ export default function WordleSolver() {
 			const yellowFiltered =
 				yellowLetters().length === 0
 					? greyFiltered
-					: greyFiltered.filter((word) => {
+					: greyFiltered?.filter((word) => {
 							if (
 								requiredLetters.filter((letter) => word.includes(letter))
 									.length === requiredLetters.length
@@ -109,7 +111,7 @@ export default function WordleSolver() {
 			const greenFiltered =
 				greenLetters().length === 0
 					? yellowFiltered
-					: yellowFiltered.filter((word) => {
+					: yellowFiltered?.filter((word) => {
 							if (
 								greenLetters().filter((letter, i) => {
 									if (letter === "?") {
@@ -125,7 +127,7 @@ export default function WordleSolver() {
 							return false;
 					  });
 
-			setPossibleWords(greenFiltered);
+			setPossibleWords(greenFiltered || []);
 		} else {
 			setPossibleWords([]);
 		}
