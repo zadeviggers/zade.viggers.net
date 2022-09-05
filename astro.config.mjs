@@ -14,6 +14,6 @@ export default defineConfig({
 			},
 		}),
 		mdx(),
-		beep(),
+		beep({ mode: "blastoff" }),
 	],
 });
