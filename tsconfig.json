@@ -2,6 +2,7 @@
 	"compilerOptions": {
 		"jsx": "preserve",
 		"jsxImportSource": "solid-js",
-		"lib": ["ESNEXT", "DOM"]
+		"lib": ["ESNEXT", "DOM"],
+		"strict": true
 	}
 }

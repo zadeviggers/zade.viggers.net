@@ -4,29 +4,40 @@ import {
 } from "simple-vanilla-notifications";
 import {
 	For,
-	Match,
-	Switch,
 	createEffect,
 	createResource,
 	createSignal,
 	onCleanup,
 } from "solid-js";
 
-type Letter = string;
 const threshold = 2;
 export default function WordleSolver() {
-	const [greyLetters, setGreyLetters] = createSignal<Letter[]>([]);
-	const [yellowLetters, setYellowLetters] = createSignal<Letter[]>([]);
-	const [greenLetters, setGreenLetters] = createSignal<Letter[]>([]);
+	const [greyLettersInput, setGreyLettersInput] =
+		createSignal<HTMLInputElement | null>(null);
+	const [yellowLettersInput, setYellowLettersInput] =
+		createSignal<HTMLInputElement | null>(null);
+	const [greenLettersInput, setGreenLettersInput] =
+		createSignal<HTMLInputElement | null>(null);
+
 	const [possibleWords, setPossibleWords] = createSignal<string[]>([]);
 	const [notificationManager, setNotificationManager] =
 		createSignal<NotificationManager>();
+
+	const greenLetters = () =>
+		greenLettersInput()?.value.toUpperCase().split("") || [];
+	const yellowLetters = () =>
+		yellowLettersInput()?.value.toUpperCase().split("") || [];
+	const greyLetters = () =>
+		greyLettersInput()?.value.toUpperCase().split("") || [];
 
 	createEffect(() => {
 		setNotificationManager(createNotificationManager());
 	});
 
-	onCleanup(() => notificationManager().dismissAllNotifications());
+	onCleanup(() => {
+		notificationManager().dismissAllNotifications();
+		setTimeout(() => notificationManager().destroy(), 1000);
+	});
 
 	const [words, { refetch }] = createResource(notificationManager, async () => {
 		const loadingNotification = notificationManager().createNotification(
@@ -53,13 +64,15 @@ export default function WordleSolver() {
 	const totalLength = () =>
 		greyLetters().length + yellowLetters().length + greenLetters().length;
 
-	createEffect(() => {
+	function handleChange() {
+		console.log(totalLength());
+		console.log(greyLetters(), yellowLetters(), greenLetters());
+
 		if (totalLength() >= threshold) {
 			const requiredLetters = [
 				...yellowLetters(),
 				...greenLetters().filter((l) => l !== "?"),
 			];
-			console.log(requiredLetters);
 			const greyFiltered =
 				greyLetters().length === 0
 					? words()
@@ -113,8 +126,10 @@ export default function WordleSolver() {
 					  });
 
 			setPossibleWords(greenFiltered);
+		} else {
+			setPossibleWords([]);
 		}
-	});
+	}
 
 	const loading = () => words.loading;
 
@@ -125,61 +140,41 @@ export default function WordleSolver() {
 				<label for="greyed-out-letters">
 					Greyed out letters
 					<input
+						class="wordle-solver-input"
 						disabled={loading()}
 						id="greyed-out-letters"
 						type="text"
 						pattern="[a-zA-Z]+"
-						value={greyLetters().join("")}
-						onInput={(e) =>
-							setGreyLetters(
-								((e.target as HTMLInputElement).value as string)
-									.trim()
-									.toUpperCase()
-									.split(""),
-							)
-						}
+						ref={setGreyLettersInput}
+						onInput={handleChange}
 					/>
 				</label>
 				<label for="yellow-letters">
 					Yellow letters
 					<input
+						class="wordle-solver-input"
 						disabled={loading()}
 						id="yellow-letters"
 						type="text"
 						pattern="^[a-zA-Z]$"
-						value={yellowLetters().join("")}
-						onInput={(e) =>
-							setYellowLetters(
-								((e.target as HTMLInputElement).value as string)
-									.trim()
-									.toUpperCase()
-									.split(""),
-							)
-						}
+						ref={setYellowLettersInput}
+						onInput={handleChange}
 					/>
 				</label>
 				<label
 					for="green-letters"
-					title="In order. Put a '?' for unknown letters."
-				>
+					title="In order. Put a '?' for unknown letters.">
 					Green letters
 					<input
+						class="wordle-solver-input"
 						disabled={loading()}
 						id="green-letters"
 						type="text"
 						placeholder="W??DS"
 						pattern="^[a-zA-Z\?]{0,5}$"
 						maxlength={5}
-						value={greenLetters().join("")}
-						onInput={(e) =>
-							setGreenLetters(
-								((e.target as HTMLInputElement).value as string)
-									.trim()
-									.toUpperCase()
-									.split("")
-									.slice(0, 5),
-							)
-						}
+						ref={setGreenLettersInput}
+						onInput={handleChange}
 					/>{" "}
 				</label>
 				<h2 class="font-bold">
@@ -193,7 +188,7 @@ export default function WordleSolver() {
 					<For
 						each={possibleWords()}
 						fallback={
-							totalLength() < threshold ? (
+							totalLength() <= threshold ? (
 								<>
 									<li class="border-l-4 pl-2 border-rose-500 rounded-md bg-rose-50 p-2 mt-2">
 										Enter at least {threshold} characters to see suggestions.
