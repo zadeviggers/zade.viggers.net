@@ -6,7 +6,7 @@ title: Exploring text gradients
 # Exploring text <span class="gradient-text">gradients</span>
 
 Recently, I've often seen fancy gradient backgrounds for text on landing pages.
-Some good examples of this gradient text are the [Vue](https://vuejs.org/")
+Some good examples of this gradient text are the [Vue](https://vuejs.org/)
 landing page and the [MUI](https://mui.com/) landing page.
 
 I was intrigued because it's not possible to use gradients in the `color`
