@@ -7,7 +7,7 @@ interface Props {
 const { project } = Astro.props as Props;
 ---
 
-<li class="p-2 bg-slate-200 rounded-md">
+<li class="p-2 bg-slate-200 rounded-md list-none">
 	<strong
 		class:list={["font-bold", project.url && "hover:underline focus:underline"]}
 	>
@@ -28,7 +28,7 @@ const { project } = Astro.props as Props;
 		Made using <span class="technology-list">
 			{
 				project.technologies.map((technologyID) => {
-					const technology = technologies[technologyID];
+					const technology = technologies[technologyID]!;
 					return (
 						<span>
 							<a href={technology.url} rel="noopener noreferrer">
