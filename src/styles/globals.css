@@ -6,11 +6,11 @@
 }
 
 a {
-	@apply text-theme;
+	@apply decoration-theme underline motion-safe:duration-75;
 }
 a:hover,
 a:focus {
-	@apply underline;
+	@apply bg-theme text-theme-contrast;
 }
 
 label {
