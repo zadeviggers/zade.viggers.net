@@ -41,8 +41,8 @@ colours.
 
 ```css
 button {
-	background-color: #84cc16;
-	color: black;
+	background-color: rebeccapurple;
+	color: white;
 }
 
 @supports (background-color: AccentColor) and (color: AccentColorText) {
