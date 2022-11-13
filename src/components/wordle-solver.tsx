@@ -122,8 +122,9 @@ export default function WordleSolver() {
 										return false;
 									}
 								}).length === greenLetters().length
-							)
+							) {
 								return true;
+							}
 							return false;
 					  });
 

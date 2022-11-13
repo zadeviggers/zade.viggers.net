@@ -5,7 +5,9 @@ interface Props {
 const { date } = Astro.props;
 ---
 
-<time data-show-time-since time={date.toString()}> {date.getFullYear()}</time>.
+<time data-show-time-since datetime={date.toString()}>
+	{date.getFullYear()}.
+</time>
 
 <style>
 	time {
@@ -17,7 +19,7 @@ const { date } = Astro.props;
 	import { formatDistance } from "date-fns";
 
 	document.querySelectorAll("[data-show-time-since]").forEach((element) => {
-		const timeString = element.getAttribute("time");
+		const timeString = element.getAttribute("datetime")!;
 		const date = new Date(timeString);
 		const timeGap = formatDistance(date, new Date(), { addSuffix: true });
 		console.log(timeGap);

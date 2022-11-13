@@ -17,19 +17,18 @@ import BaseLayout from "../layouts/base-layout.astro";
 		>Please note that the booking system will not work becuase JavaScript is
 		either disabled in your web browser, or not supported by your browser.
 	</noscript>
-	<button id="fancy-button">Make a booking</button>
+	<button class="button" id="fancy-button">Make a booking</button>
 	<iframe
 		style="display: none;"
 		id="booking-vid"
-		type="text/html"
 		width="100%"
 		height="100%"
 		frameborder="0"
 		allowfullscreen
 		allow="autoplay"></iframe>
 	<script>
-		const fancyButton = document.getElementById("fancy-button");
-		const vid = document.getElementById("booking-vid");
+		const fancyButton = document.getElementById("fancy-button")!;
+		const vid = document.getElementById("booking-vid")!;
 		fancyButton.addEventListener("click", () => {
 			vid.setAttribute(
 				"src",

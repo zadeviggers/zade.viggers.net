@@ -6,7 +6,7 @@ import BaseLayout from "./base-layout.astro";
 const { title } = Astro.props;
 ---
 
-<BaseLayout {title}>
+<BaseLayout title={title}>
 	<slot />
 	<footer>
 		<a href="/">← Back to home page</a>
