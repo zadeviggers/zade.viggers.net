@@ -11,9 +11,11 @@ Hey! Do you want your site to be able to do _this_?
 <video src="/dynamic-theme-colours.mp4" controls loop height="300" width="525" class="rounded bg-theme" alt="A video showing a webpage with coloured elements and a settings screen. Someone keeps changing the system accent colour, and the coloured elements in the webpage keep updating to match it.">
 </video>
 
-It's easy. Just use the CSS `AccentColor` colour keyword and you're away! There
-is also a corresponding colour keyword `AccentColorText` that is guaranteed to
-be readable when text is placed on a background of `AccentColor`.
+Yes, you saw that right. The page is using the operating system accent colour.
+
+The best part is, it's super easy. Just use the CSS `AccentColor` colour keyword
+and you're away! There is also a corresponding keyword `AccentColorText` that is
+guaranteed to be readable when text is placed on a background of `AccentColor`.
 
 Here's an example of using it:
 
