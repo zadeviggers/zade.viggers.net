@@ -1,6 +1,7 @@
 ---
 layout: ../../layouts/interesting-things-layout.astro
 title: Exploring text gradients
+order: 1
 ---
 
 # Exploring text <span class="gradient-text">gradients</span>

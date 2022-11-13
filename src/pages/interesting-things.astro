@@ -5,18 +5,21 @@ const articles = (
 		Astro.glob("./interesting-things/*.md"),
 		Astro.glob("./interesting-things/*.mdx"),
 	])
-).flat();
+)
+	.flat()
+	.sort((a, b) => a.frontmatter.order - b.frontmatter.order);
 ---
 
 <MainPageLayout title="Interesting things">
 	<h1>Interesting things I've written about</h1>
-	<ul>
+	<ol>
 		{
 			articles.map((article) => (
 				<li>
+					{article.frontmatter.order}.{" "}
 					<a href={article.url}>{article.frontmatter.title}</a>
 				</li>
 			))
 		}
-	</ul>
+	</ol>
 </MainPageLayout>
