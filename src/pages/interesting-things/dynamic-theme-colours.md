@@ -60,5 +60,5 @@ A couple of last things to note:
 1. You can't access the colour value with Javascript. Sorry css-in-js fans. This
    is intentional, to reduce fingerprinting surface.
 2. It's pretty hard to generate lighter/darker variants of the `AccentColor`. I
-   ended up using `backdrop-filter: brightness(1.1)` on my buttons to make them
-   brighter when the user hovered over them.
+   ended up using `filter: brightness(1.1);` on my buttons to make them brighter
+   when the user hovered over them.
