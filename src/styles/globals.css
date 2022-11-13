@@ -6,7 +6,7 @@
 }
 
 a {
-	@apply text-theme-600;
+	@apply text-theme;
 }
 a:hover,
 a:focus {
@@ -18,29 +18,43 @@ label {
 }
 
 label:focus-within {
-	@apply text-theme-500;
+	@apply text-theme;
 }
 
 input {
-	@apply border-2 border-slate-500 rounded-lg p-2;
+	@apply border-2 border-slate-500 rounded-lg p-2 text-black;
 }
 input:hover {
 	@apply border-slate-400;
 }
 
 input:focus {
-	@apply border-theme-500 text-theme-900;
+	@apply border-theme;
 }
 
 .button {
-	@apply p-2 px-4 bg-theme-100 rounded-md duration-75 border-transparent border-2;
+	@apply p-2 px-4 bg-theme text-theme-contrast rounded-md motion-safe:duration-200;
 }
 .button:hover,
 .button:focus-visible {
-	@apply bg-theme-200 border-theme-400 shadow;
+	@apply filter brightness-110 shadow;
 }
 .button:active {
-	@apply bg-theme-200 border-theme-600 shadow-md;
+	@apply filter brightness-90 shadow-md;
 }
 
 @tailwind utilities;
+
+@layer base {
+	:root {
+		--backup-theme-colour: #84cc16;
+		--backup-theme-colour-contrast: black;
+		--accent-colour: AccentColor;
+		--accent-colour-contrast: AccentColorText;
+		--theme: var(--accent-colour, var(--backup-theme-colour));
+		--theme-contrast: var(
+			--accent-colour-contrast,
+			var(--backup-theme-colour-contrast)
+		);
+	}
+}

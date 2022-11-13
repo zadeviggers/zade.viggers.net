@@ -184,7 +184,7 @@ export default function WordleSolver() {
 					Possible words
 					{possibleWords().length > 0 && ` (${possibleWords().length})`}:
 				</h2>
-				<p class="border-l-4 pl-2 border-theme-500 rounded-md bg-theme-50 p-2">
+				<p class="border border-l-4 pl-2 border-theme rounded-md p-2">
 					More common words will generally be higher up in the list.
 				</p>
 				<ul>
@@ -193,7 +193,7 @@ export default function WordleSolver() {
 						fallback={
 							totalLength() <= threshold ? (
 								<>
-									<li class="border-l-4 pl-2 border-rose-500 rounded-md bg-rose-50 p-2 mt-2">
+									<li class="border border-l-4 pl-2 border-rose-500 rounded-md p-2 mt-2">
 										Enter at least {threshold} characters to see suggestions.
 									</li>
 								</>

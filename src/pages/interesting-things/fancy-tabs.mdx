@@ -163,14 +163,12 @@ export default function BoringTabs({
 		<div
 			class={`${boring ? "boring" : "fancy"} ${
 				underlined ? "underlined" : "background"
-			} tabs`}
-		>
+			} tabs`}>
 			<div
 				class="tabs-controls"
 				role="tablist"
 				aria-label="Tabs"
-				ref={setTabControlsRef}
-			>
+				ref={setTabControlsRef}>
 				<For each={Object.keys(tabs)}>
 					{(key) => (
 						<button
@@ -182,8 +180,7 @@ export default function BoringTabs({
 							class={activeTab() == key && "active"}
 							aria-selected={activeTab() == key ? "true" : "false"}
 							aria-controls={`${id}-tab-panel-${key}`}
-							onClick={() => setActiveTab(key)}
-						>
+							onClick={() => setActiveTab(key)}>
 							{key}
 						</button>
 					)}
@@ -199,8 +196,7 @@ export default function BoringTabs({
 						role="tabpanel"
 						id={`${id}-tab-panel-${key}`}
 						class="tabs-panel"
-						style={{ display: activeTab() === key ? "block" : "none" }}
-					>
+						style={{ display: activeTab() === key ? "block" : "none" }}>
 						{value}
 					</div>
 				)}
@@ -219,12 +215,6 @@ not), and you're changing the width of the tab button when it's active, by
 bolding the text inside it or something, you'll want to use `useLayoutEffect`
 instead of regular `useEffect` for updating the indicator so that the calculated
 width and offset are correct.
-
-## Extra for ~~experts~~ nerds
-
-If you're feeling very fancy, you can also try copying Vercel's tabs and have
-the indicator follow your cursor, snapping to the closest tab button, which is
-also a very nice effect.
 
 ## Conclusion
 
