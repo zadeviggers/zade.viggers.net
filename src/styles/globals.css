@@ -50,6 +50,7 @@ input:focus {
 		--theme: #84cc16;
 		--theme-contrast: black;
 	}
+	/* Only do cool dynamic theming when it's supported */
 	@supports (background-color: AccentColor) and (color: AccentColorText) {
 		:root {
 			--theme: AccentColor;
