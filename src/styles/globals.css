@@ -47,14 +47,13 @@ input:focus {
 
 @layer base {
 	:root {
-		--backup-theme-colour: #84cc16;
-		--backup-theme-colour-contrast: black;
-		--accent-colour: AccentColor;
-		--accent-colour-contrast: AccentColorText;
-		--theme: var(--accent-colour, var(--backup-theme-colour));
-		--theme-contrast: var(
-			--accent-colour-contrast,
-			var(--backup-theme-colour-contrast)
-		);
+		--theme: #84cc16;
+		--theme-contrast: black;
+	}
+	@supports (background-color: AccentColor) and (color: AccentColorText) {
+		:root {
+			--theme: AccentColor;
+			--theme-contrast: AccentColorText;
+		}
 	}
 }
