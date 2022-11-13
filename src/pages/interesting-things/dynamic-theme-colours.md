@@ -8,8 +8,9 @@ order: 3
 
 Hey! Do you want your site to be able to do _this_?
 
-<video src="/dynamic-theme-colours.mp4" controls loop height="300" width="525" class="rounded bg-theme" alt="A video showing a webpage with coloured elements and a settings screen. Someone keeps changing the system accent colour, and the coloured elements in the webpage keep updating to match it.">
-</video>
+<video src="/dynamic-theme-colours.mov" controls loop height="476" width="640" class="rounded bg-theme" alt="A video showing a webpage with coloured elements
+and a settings screen. Someone keeps changing the system accent colour, and the
+coloured elements in the webpage keep updating to match it."> </video>
 
 Yes, you saw that right. The page is using the operating system accent colour.
 
