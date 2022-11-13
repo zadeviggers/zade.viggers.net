@@ -10,6 +10,15 @@ module.exports = {
 				theme: "var(--theme)",
 				"theme-contrast": "var(--theme-contrast)",
 			},
+			typography: (theme) => ({
+				DEFAULT: {
+					css: {
+						a: {
+							"text-decoration-color": theme("colors.theme"),
+						},
+					},
+				},
+			}),
 		},
 	},
 	plugins: [require("@tailwindcss/typography")],
