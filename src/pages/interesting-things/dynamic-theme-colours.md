@@ -56,6 +56,27 @@ button {
 }
 ```
 
+Or if you don't want to be fancy, you can also do it the classic way:
+
+```css
+button {
+	background-color: rebeccapurple;
+	color: white;
+
+	background-color: AccentColor;
+	color: AccentColorText;
+}
+```
+
+The browser will apply the fallback styles first, and if it supports
+`AccentColor`, it will take precedence since it's further down. If the browser
+doesn't support `AccentColor`, it'll just ignore the later styles and keep the
+earlier ones.
+
+The first option is probably better though, because some operating systems don't
+support setting a custom accent colour, and `@supports` is more likely to
+reflect that than relying on the browser marking the property as invalid.
+
 And that's about it!
 
 A couple of last things to note:
