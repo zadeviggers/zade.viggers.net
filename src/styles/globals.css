@@ -13,6 +13,13 @@ a:focus {
 	@apply bg-theme text-theme-contrast;
 }
 
+a.arrow-right::after {
+	content: " →";
+}
+a.arrow-left::before {
+	content: "← ";
+}
+
 label {
 	@apply flex flex-col my-1;
 }

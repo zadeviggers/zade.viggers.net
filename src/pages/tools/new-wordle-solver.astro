@@ -1,26 +1,17 @@
 ---
 import MainPageLayout from "../../layouts/main-page-layout.astro";
-import WordleSolver from "../../components/wordle-solver";
+import WordleSolver from "../../components/new-wordle-solver";
 import "simple-vanilla-notifications/defaults.css";
 ---
 
 <MainPageLayout title="Wordle solver">
 	<h1 class="font-bold">Wordle solver</h1>
-	<!-- <p>
-		Try out the <a href="/tools/new-wordle-solver" class="arrow-right"
-			>new and improved Wordle solver</a
-		>.
-	</p> -->
 	<p>
-		Use for finding words for <a
-			href="https://www.powerlanguage.co.uk/wordle/"
-			rel="noopener noreferrer">Wordle</a
+		Go back to the <a href="/tools/wordle-solver" class="arrow-left"
+			>original Wordle solver</a
 		>.
 	</p>
-	<p>
-		This tool loads a very big list, so if it's slow, just give it a bit. Also
-		it might not work on old devices.
-	</p>
+
 	<WordleSolver client:load />
 	<p>
 		Made with <a href="https://www.solidjs.com/" rel="noopener noreferrer"
