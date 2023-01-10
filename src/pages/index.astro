@@ -68,6 +68,11 @@ const crisislabProjects: ProjectType[] = [
 		<h1>Hello, I'm Zade Viggers.</h1>
 	</header>
 	<main class="flow">
+		<section>
+			<h2>
+				<a class="very-big-text" href="/tools/wordle-solver">Wordle solver →</a>
+			</h2>
+		</section>
 		<section class="flow">
 			<h2>Thing's I've made:</h2>
 			<aside>
@@ -100,15 +105,6 @@ const crisislabProjects: ProjectType[] = [
 				</dd>
 			</dl>
 		</section>
-		<section>
-			<h2 class="font-bold">Other pages</h2>
-			<dl>
-				<dt><a href="/tools/wordle-solver">Wordle solver</a></dt>
-				<dd>Helper for finding words for Wordle</dd>
-				<dt><a href="/interesting-things">Interesting Things</a></dt>
-				<dd>Interesting things that I've written about.</dd>
-			</dl>
-		</section>
 	</main>
 </BaseLayout>
 
@@ -131,5 +127,8 @@ const crisislabProjects: ProjectType[] = [
 		padding: var(--spacing);
 		border: 1px solid var(--normal-text-colour);
 		max-width: 500px;
+	}
+	.very-big-text {
+		font-size: xx-large;
 	}
 </style>
