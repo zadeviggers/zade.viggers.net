@@ -19,7 +19,7 @@ export default class WordleSolver extends LitElement {
 		}
 		.word-row {
 			display: flex;
-			gap: 1px;
+			gap: 3px;
 		}
 	`;
 
