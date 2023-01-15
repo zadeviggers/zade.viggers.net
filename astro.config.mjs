@@ -8,6 +8,9 @@ import beep from "astro-beep";
 import compress from "astro-compress";
 
 // https://astro.build/config
+import lit from "@astrojs/lit";
+
+// https://astro.build/config
 export default defineConfig({
 	integrations: [
 		solid(),
@@ -21,5 +24,6 @@ export default defineConfig({
 		beep({
 			mode: "blastoff",
 		}),
+		lit(),
 	],
 });
