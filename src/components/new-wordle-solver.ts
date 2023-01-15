@@ -8,9 +8,6 @@ type Colour = "grey" | "yellow" | "green";
 
 @customElement("wordle-solver")
 export default class WordleSolver extends LitElement {
-	@state()
-	filteredWords: string[] = ["beans", "words"];
-
 	static override styles = css`
 		.words-stack {
 			display: flex;
@@ -23,19 +20,31 @@ export default class WordleSolver extends LitElement {
 		}
 	`;
 
+	@state()
+	filteredWords: string[] = ["beans", "words"];
+
+	@state()
+	activeInput = { wordIndex: 0, letterIndex: 0 };
+
 	override render() {
-		function makeHandleLetterChange(wordIndex: number, letterIndex: number) {
-			return (e: unknown) => console.log(e, wordIndex, letterIndex);
-		}
 		return html`<section class="words-stack">
 				${repeat(
 					[0, 1, 2, 3, 4],
+					(w) => w,
 					(wordIndex) =>
 						html`<div class="word-row">
 							${repeat(
 								[0, 1, 2, 3, 4],
+								(l) => l,
 								(letterIndex) => html` <wordle-letter-selector
-									@change=${makeHandleLetterChange(wordIndex, letterIndex)}
+									word-index="${wordIndex}"
+									letter-index="${letterIndex}"
+									.active=${this.activeInput.letterIndex === letterIndex &&
+									this.activeInput.wordIndex === wordIndex}
+									@change=${this._makeHandleLetterChange(
+										wordIndex,
+										letterIndex,
+									)}
 								></wordle-letter-selector>`,
 							)}
 						</div>`,
@@ -52,15 +61,55 @@ export default class WordleSolver extends LitElement {
 				</ul>
 			</section>`;
 	}
+
+	_makeHandleLetterChange(wordIndex: number, letterIndex: number) {
+		let nextWordIndex = wordIndex;
+		let nextLetterIndex = letterIndex;
+		// If not the last word
+		if (letterIndex === 4) {
+			// If this is the last letter
+			if (wordIndex !== 4) {
+				// Make sure this isn't the last word
+				nextWordIndex = wordIndex + 1;
+				nextLetterIndex = 0;
+			}
+		} else {
+			// If this isn't the last letter
+			nextLetterIndex = letterIndex + 1;
+		}
+
+		return (e: CustomEvent<LetterSelector>) => {
+			const letter = (e?.target as LetterSelector).letter;
+			console.log(wordIndex, letterIndex, letter);
+
+			if (letter !== "") {
+				this.activeInput = {
+					wordIndex: nextWordIndex,
+					letterIndex: nextLetterIndex,
+				};
+			}
+		};
+	}
 }
 
 @customElement("wordle-letter-selector")
 export class LetterSelector extends LitElement {
 	@state()
-	letter = "";
+	public letter = "";
 
 	@state()
-	colour: Colour = "grey";
+	public colour: Colour = "grey";
+
+	@property({ type: Number })
+	["word-index"] = 0;
+
+	@property({ type: Number })
+	["letter-index"] = 0;
+
+	@property({ type: Boolean, reflect: true })
+	active = false;
+
+	private inputEl: HTMLInputElement | null = null;
 
 	static override styles = css`
 		:host {
@@ -123,26 +172,29 @@ export class LetterSelector extends LitElement {
 				@input=${this._handleInput}
 				maxlength="1"
 				pattern="[a-z]|[A-Z]"
+				class="letter-input"
+				title="Enter a letter"
 			/>
 			<div class="button-row">
 				<button
+					class="beans"
 					data-colour="grey"
 					title="Set as Grey"
-					@click=${() => this._updateColour("grey")}
+					@click=${this._makeHandleColourClick("grey")}
 				>
 					⬜️
 				</button>
 				<button
 					data-colour="yellow"
 					title="Set as Yellow"
-					@click=${() => this._updateColour("yellow")}
+					@click=${this._makeHandleColourClick("yellow")}
 				>
 					🟨
 				</button>
 				<button
 					data-colour="green"
 					title="Set as Green"
-					@click=${() => this._updateColour("green")}
+					@click=${this._makeHandleColourClick("green")}
 				>
 					🟩
 				</button>
@@ -154,15 +206,33 @@ export class LetterSelector extends LitElement {
 		this._updateColourAttribute();
 	}
 
+	// rome-ignore lint/suspicious/noExplicitAny: <explanation>
+	protected override update(_whatever: any) {
+		super.update(_whatever);
+
+		if (this.active) {
+			if (!this.inputEl) {
+				this.inputEl = this.renderRoot?.querySelector("input.letter-input");
+				this.inputEl?.focus();
+			}
+		}
+	}
+
 	private _handleInput(e: InputEvent) {
 		this.letter = (e.target as HTMLInputElement).value;
 		this._dispatchChange();
 	}
 
 	private _updateColour(colour: Colour) {
+		// if (this.colour !== colour) {
 		this.colour = colour;
 		this._updateColourAttribute();
 		this._dispatchChange();
+		// }
+	}
+
+	private _makeHandleColourClick(colour: Colour) {
+		return () => this._updateColour(colour);
 	}
 
 	private _updateColourAttribute() {
@@ -170,7 +240,7 @@ export class LetterSelector extends LitElement {
 	}
 
 	private _dispatchChange() {
-		const event = new CustomEvent("change");
+		const event = new CustomEvent("change", { bubbles: true, composed: true });
 		this.dispatchEvent(event);
 	}
 }

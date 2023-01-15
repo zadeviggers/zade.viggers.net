@@ -1,12 +1,13 @@
 ---
 export interface Props {
 	title: string;
+	disableResponsive?: boolean | undefined;
 }
 import BaseLayout from "./base-layout.astro";
-const { title } = Astro.props;
+const { title, disableResponsive } = Astro.props;
 ---
 
-<BaseLayout title={title}>
+<BaseLayout title={title} {disableResponsive}>
 	<slot />
 	<footer>
 		<a href="/" class="arrow-left">Back to home page</a>

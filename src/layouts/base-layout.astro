@@ -2,9 +2,10 @@
 import "../styles/globals.css";
 interface Props {
 	title: string;
+	disableResponsive?: boolean | undefined;
 }
 
-const { title } = Astro.props;
+const { title, disableResponsive } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -12,7 +13,11 @@ const { title } = Astro.props;
 	<head>
 		<meta charset="UTF-8" />
 		<title>{title}</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		{
+			!disableResponsive && (
+				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+			)
+		}
 		<meta name="generator" content={Astro.generator} />
 	</head>
 	<body class="p-2">
