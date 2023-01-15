@@ -5,6 +5,9 @@ import mdx from "@astrojs/mdx";
 import beep from "astro-beep";
 
 // https://astro.build/config
+import compress from "astro-compress";
+
+// https://astro.build/config
 export default defineConfig({
 	integrations: [
 		solid(),
@@ -14,6 +17,9 @@ export default defineConfig({
 			},
 		}),
 		mdx(),
-		beep({ mode: "blastoff" }),
+		compress(),
+		beep({
+			mode: "blastoff",
+		}),
 	],
 });

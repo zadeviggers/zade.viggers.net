@@ -2,7 +2,6 @@
 import BaseLayout from "../layouts/base-layout.astro";
 import type { Project as ProjectType } from "../types/projects";
 import Project from "../components/Project.astro";
-import ProjectGroup from "../components/ProjectGroup.astro";
 const projects: ProjectType[] = [
 	{
 		title: "St Paul's Lutheran Church Wellington website",
@@ -17,48 +16,6 @@ const projects: ProjectType[] = [
 		comment:
 			"Website frontent, backend, and content managment system designed and programmed by me.",
 		technologies: ["Astro", "NetlifyCMS", "Typescript"],
-	},
-	{
-		title: "Wellington College Retail Simulation",
-		url: "https://retailsimulation.co.nz/",
-		comment: "Website frontend designed in part and programmed in part by me.",
-		technologies: ["MUI4", "React"],
-	},
-];
-
-const crisislabProjects: ProjectType[] = [
-	{
-		title: "2022 CRISiSLab challange earthquake simulation visulisation",
-		url: "https://visualisation.pages.dev/",
-		comment:
-			"Designed and programmed entierly by me. For use in the 2022 CRISiSLab challange.",
-		technologies: ["MapboxGLJS"],
-	},
-	{
-		title: "CRISiSLab sensor management dashboard",
-		url: "https://admin.crisislab.org.nz/",
-		comment:
-			"Website frontend (including authentication pages) desgined and programmed me.",
-		technologies: ["MUI5", "ReactQuery", "ReactRouter6", "React", "Typescript"],
-	},
-	{
-		title: "CRISiSLab shakemap",
-		url: "https://shakemap.crisislab.org.nz/",
-		comment: "Website frontend programmed in part by me.",
-		technologies: ["MapboxGLJS", "MUI5", "ReactRouter6", "React"],
-	},
-	{
-		title: "Old CRISiSLab shakemap",
-		comment:
-			"Original (No longer used) website frontend designed and programmed by me.",
-		technologies: [
-			"MapboxGLJS",
-			"MUI5",
-			"ReactQuery",
-			"ReactRouter6",
-			"React",
-			"Typescript",
-		],
 	},
 ];
 ---
@@ -76,19 +33,14 @@ const crisislabProjects: ProjectType[] = [
 			</h2>
 		</section>
 		<section class="flow">
-			<h2>Thing's I've made:</h2>
+			<h2>Some websites I've made:</h2>
 			<aside>
 				<em>
-					Please note that while I built (or helped to build) these
-					websites/apps/etc, I do not necessarily contribute to or endorse the
-					content on them.
+					Please note that while I created or contributed to these sites, I do
+					not necessarily contribute to or endorse the content on them.
 				</em>
 			</aside>
 			<div class="flex flex-col gap-2">
-				<ProjectGroup heading="While working at CRISiSLab">
-					{crisislabProjects.map((project) => <Project project={project} />)}
-				</ProjectGroup>
-
 				<ul class="flex flex-wrap gap-2">
 					{projects.map((project) => <Project project={project} />)}
 				</ul>

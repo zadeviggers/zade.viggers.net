@@ -30,7 +30,7 @@ export const technologies: Record<string, Technology> = {
 	Tailwind3: {
 		name: "Tailwind CSS",
 		url: "https://tailwindcss.com/",
-		note: "Version 3",
+		// note: "Version 3",
 	},
 	Astro: {
 		name: "Astro",
@@ -46,9 +46,4 @@ export type Project = {
 	url?: string;
 	comment: string;
 	technologies: (keyof typeof technologies)[];
-};
-export type ProjectGroup = {
-	group: true;
-	heading: string;
-	projects: Project[];
 };
