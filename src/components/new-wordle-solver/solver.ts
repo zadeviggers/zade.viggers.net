@@ -26,6 +26,14 @@ export default class WordleSolver extends LitElement {
 	@state()
 	activeInput = { wordIndex: 0, letterIndex: 0 };
 
+	@state()
+	filteringInfo: Record<
+		number,
+		Record<number, { colour: Colour; letter: string }>
+	> = {};
+
+	filteringWorker: Worker | null = null;
+
 	override render() {
 		return html`<section class="words-stack">
 				${repeat(
@@ -41,10 +49,7 @@ export default class WordleSolver extends LitElement {
 									letter-index="${letterIndex}"
 									.active=${this.activeInput.letterIndex === letterIndex &&
 									this.activeInput.wordIndex === wordIndex}
-									@change=${this._makeHandleLetterChange(
-										wordIndex,
-										letterIndex,
-									)}
+									@change=${this._handleLetterChange}
 								></wordle-letter-selector>`,
 							)}
 						</div>`,
@@ -62,33 +67,92 @@ export default class WordleSolver extends LitElement {
 			</section>`;
 	}
 
-	_makeHandleLetterChange(wordIndex: number, letterIndex: number) {
-		let nextWordIndex = wordIndex;
-		let nextLetterIndex = letterIndex;
-		// If not the last word
-		if (letterIndex === 4) {
-			// If this is the last letter
-			if (wordIndex !== 4) {
-				// Make sure this isn't the last word
-				nextWordIndex = wordIndex + 1;
-				nextLetterIndex = 0;
-			}
+	override connectedCallback(): void {
+		super.connectedCallback();
+
+		// Spawn worker
+		const isFirefox = navigator.userAgent.toLowerCase().indexOf("firefox") > -1;
+		if (
+			!window.Worker ||
+			// @ts-expect-error: import.meta.env isn't typed properly for some reason
+			(import.meta.env.MODE === "development" && isFirefox)
+		) {
+			if (isFirefox)
+				console.warn(
+					"Vite currently only supports using web workers in dev mode in chrome - firefox doesn't work :(",
+				);
+			// TODO: Either: (A) Add UI when this is the case OR (B) Make it do the filtering on the main thread.
+			console.warn("<<!!>> Workers are not available! <<!!>>");
 		} else {
-			// If this isn't the last letter
-			nextLetterIndex = letterIndex + 1;
+			this.filteringWorker = new Worker(
+				new URL("./worker.ts", import.meta.url),
+				{
+					type: "module",
+				},
+			);
 		}
+	}
 
-		return (e: CustomEvent<LetterSelector>) => {
-			const letter = (e?.target as LetterSelector).letter;
-			console.log(wordIndex, letterIndex, letter);
+	override disconnectedCallback(): void {
+		super.disconnectedCallback();
 
-			if (letter !== "") {
-				this.activeInput = {
-					wordIndex: nextWordIndex,
-					letterIndex: nextLetterIndex,
-				};
+		// Terminate worker
+		this.filteringWorker?.terminate();
+	}
+
+	_sendFilteringIntoToWorker() {
+		if (!this.filteringWorker)
+			return console.warn(
+				"Worker not found, but filtering data has been inputted",
+			);
+
+		// This object gets cloned rather than transferred
+		this.filteringWorker.postMessage({
+			msg: "filtering-info",
+			data: this.filteringInfo,
+		});
+	}
+
+	_handleLetterChange(e: CustomEvent<LetterSelector>) {
+		const wordIndex = Number(
+			(e.target as HTMLInputElement).getAttribute("word-index"),
+		);
+		const letterIndex = Number(
+			(e.target as HTMLInputElement).getAttribute("letter-index"),
+		);
+
+		const letter = (e?.target as LetterSelector).letter;
+		const colour = (e?.target as LetterSelector).colour;
+
+		// Make sure it's defined
+		this.filteringInfo[wordIndex] ||= {};
+		// Update the filtering info
+		this.filteringInfo[wordIndex]![letterIndex] = { letter, colour };
+		// Send updates to worker
+		this._sendFilteringIntoToWorker();
+
+		if (letter !== "") {
+			let nextWordIndex = wordIndex;
+			let nextLetterIndex = letterIndex;
+			console.log(wordIndex, letterIndex, nextLetterIndex, nextLetterIndex);
+			// If not the last word
+			if (letterIndex === 4) {
+				// If this is the last letter
+				if (wordIndex !== 4) {
+					// Make sure this isn't the last word
+					nextWordIndex = wordIndex + 1;
+					nextLetterIndex = 0;
+				}
+			} else {
+				// If this isn't the last letter
+				nextLetterIndex = letterIndex + 1;
 			}
-		};
+
+			this.activeInput = {
+				wordIndex: nextWordIndex,
+				letterIndex: nextLetterIndex,
+			};
+		}
 	}
 }
 
@@ -180,21 +244,21 @@ export class LetterSelector extends LitElement {
 					class="beans"
 					data-colour="grey"
 					title="Set as Grey"
-					@click=${this._makeHandleColourClick("grey")}
+					@click=${this._handleColourClick}
 				>
 					⬜️
 				</button>
 				<button
 					data-colour="yellow"
 					title="Set as Yellow"
-					@click=${this._makeHandleColourClick("yellow")}
+					@click=${this._handleColourClick}
 				>
 					🟨
 				</button>
 				<button
 					data-colour="green"
 					title="Set as Green"
-					@click=${this._makeHandleColourClick("green")}
+					@click=${this._handleColourClick}
 				>
 					🟩
 				</button>
@@ -203,7 +267,11 @@ export class LetterSelector extends LitElement {
 
 	override connectedCallback() {
 		super.connectedCallback();
+
 		this._updateColourAttribute();
+		this.inputEl = this.renderRoot?.querySelector("input.letter-input");
+
+		this.inputEl?.addEventListener;
 	}
 
 	// rome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -211,10 +279,7 @@ export class LetterSelector extends LitElement {
 		super.update(_whatever);
 
 		if (this.active) {
-			if (!this.inputEl) {
-				this.inputEl = this.renderRoot?.querySelector("input.letter-input");
-				this.inputEl?.focus();
-			}
+			this.inputEl?.focus();
 		}
 	}
 
@@ -231,8 +296,9 @@ export class LetterSelector extends LitElement {
 		// }
 	}
 
-	private _makeHandleColourClick(colour: Colour) {
-		return () => this._updateColour(colour);
+	private _handleColourClick(e: MouseEvent) {
+		const colour = (e.target as HTMLButtonElement).dataset.colour as Colour;
+		this._updateColour(colour);
 	}
 
 	private _updateColourAttribute() {
