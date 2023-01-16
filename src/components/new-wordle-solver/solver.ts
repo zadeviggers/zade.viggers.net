@@ -29,10 +29,10 @@ export default class WordleSolver extends LitElement {
 	filteringInfo: FilterData = {};
 
 	@state()
-	currentlyFiltering = false;
+	currentlyFiltering: boolean | string = false;
 
 	@state()
-	currentlyLoadingWordlist = false;
+	currentlyLoadingWordlist: boolean | string = true;
 
 	filteringWorker: Worker | null = null;
 
@@ -61,13 +61,15 @@ export default class WordleSolver extends LitElement {
 			<section>
 				<h2 class="text-12xl">Word suggestions</h2>
 				<p>
-					${this.currentlyFiltering
-						? "Filtering..."
-						: this.currentlyLoadingWordlist
+					${typeof this.currentlyLoadingWordlist === "string"
+						? this.currentlyLoadingWordlist
+						: this.currentlyLoadingWordlist === true
 						? "Loading word list..."
-						: this.filteredWords.length === 0
-						? "No words found :("
-						: "Filtered words:"}
+						: "Word list loaded."}
+					<br />
+					${this.currentlyFiltering
+						? "Currently filtering word list..."
+						: "Not currently filtering word list."}
 				</p>
 				<ul>
 					${repeat(
@@ -103,11 +105,35 @@ export default class WordleSolver extends LitElement {
 				},
 			);
 			this.filteringWorker.addEventListener("message", (e) => {
-				if (e.data?.msg === "filtered-words" && !!e.data?.data) {
-					this.currentlyFiltering = false;
-
-					const words = e.data?.data;
-					if (words) this.filteredWords = words;
+				switch (e.data?.msg) {
+					case "filtered-words": {
+						if (e.data?.data) {
+							const words = e.data?.data;
+							if (words) this.filteredWords = words;
+						}
+						break;
+					}
+					case "started-filtering-words": {
+						this.currentlyFiltering = true;
+						break;
+					}
+					case "done-filtering-words": {
+						this.currentlyFiltering = false;
+						break;
+					}
+					case "started-loading-wordlist": {
+						this.currentlyLoadingWordlist = true;
+						break;
+					}
+					case "done-loading-wordlist": {
+						this.currentlyLoadingWordlist = false;
+						break;
+					}
+					case "failed-loading-wordlist": {
+						this.currentlyLoadingWordlist = `An error occurred loading the wordlist${
+							e.data?.data ? `: ${e.data?.data}` : "."
+						}`;
+					}
 				}
 			});
 		}
@@ -125,8 +151,6 @@ export default class WordleSolver extends LitElement {
 			return console.warn(
 				"Worker not found, but filtering data has been inputted",
 			);
-
-		this.currentlyFiltering = true;
 
 		// This object gets cloned rather than transferred
 		this.filteringWorker.postMessage({
@@ -269,6 +293,7 @@ export class LetterSelector extends LitElement {
 			margin: 0;
 			flex: 1;
 			background: rgba(0, 0, 0, 0.2);
+			user-select: none;
 		}
 		button:first-child {
 			padding-left: var(--border-spacing);
