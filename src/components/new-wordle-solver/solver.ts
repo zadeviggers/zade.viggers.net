@@ -3,8 +3,7 @@ import { css, html, LitElement } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 
 import { repeat } from "lit/directives/repeat.js";
-
-type Colour = "grey" | "yellow" | "green";
+import type { Colour, FilterData } from "./shared";
 
 @customElement("wordle-solver")
 export default class WordleSolver extends LitElement {
@@ -21,16 +20,19 @@ export default class WordleSolver extends LitElement {
 	`;
 
 	@state()
-	filteredWords: string[] = ["beans", "words"];
+	filteredWords: string[] = [];
 
 	@state()
 	activeInput = { wordIndex: 0, letterIndex: 0 };
 
 	@state()
-	filteringInfo: Record<
-		number,
-		Record<number, { colour: Colour; letter: string }>
-	> = {};
+	filteringInfo: FilterData = {};
+
+	@state()
+	currentlyFiltering = false;
+
+	@state()
+	currentlyLoadingWordlist = false;
 
 	filteringWorker: Worker | null = null;
 
@@ -50,6 +52,7 @@ export default class WordleSolver extends LitElement {
 									.active=${this.activeInput.letterIndex === letterIndex &&
 									this.activeInput.wordIndex === wordIndex}
 									@change=${this._handleLetterChange}
+									@keyup=${this._handleKeyUp}
 								></wordle-letter-selector>`,
 							)}
 						</div>`,
@@ -57,6 +60,15 @@ export default class WordleSolver extends LitElement {
 			</section>
 			<section>
 				<h2 class="text-12xl">Word suggestions</h2>
+				<p>
+					${this.currentlyFiltering
+						? "Filtering..."
+						: this.currentlyLoadingWordlist
+						? "Loading word list..."
+						: this.filteredWords.length === 0
+						? "No words found :("
+						: "Filtered words:"}
+				</p>
 				<ul>
 					${repeat(
 						this.filteredWords,
@@ -90,6 +102,14 @@ export default class WordleSolver extends LitElement {
 					type: "module",
 				},
 			);
+			this.filteringWorker.addEventListener("message", (e) => {
+				if (e.data?.msg === "filtered-words" && !!e.data?.data) {
+					this.currentlyFiltering = false;
+
+					const words = e.data?.data;
+					if (words) this.filteredWords = words;
+				}
+			});
 		}
 	}
 
@@ -106,11 +126,42 @@ export default class WordleSolver extends LitElement {
 				"Worker not found, but filtering data has been inputted",
 			);
 
+		this.currentlyFiltering = true;
+
 		// This object gets cloned rather than transferred
 		this.filteringWorker.postMessage({
-			msg: "filtering-info",
+			msg: "filter-info",
 			data: this.filteringInfo,
 		});
+	}
+
+	private _handleKeyUp(e: KeyboardEvent) {
+		const letterSelector = e.currentTarget as LetterSelector;
+		if (e.code === "Backspace" && letterSelector.letter === "") {
+			const wordIndex = Number(letterSelector.getAttribute("word-index"));
+			const letterIndex = Number(letterSelector.getAttribute("letter-index"));
+
+			let nextWordIndex = wordIndex;
+			let nextLetterIndex = letterIndex;
+
+			// When the user backspaces with an empty cell, send them back 1 cell
+			if (letterIndex === 0) {
+				// If this is the last letter
+				if (wordIndex !== 0) {
+					// Make sure this isn't the last word
+					nextWordIndex = wordIndex - 1;
+					nextLetterIndex = 4;
+				}
+			} else {
+				// If this isn't the last letter
+				nextLetterIndex = letterIndex - 1;
+			}
+
+			this.activeInput = {
+				wordIndex: nextWordIndex,
+				letterIndex: nextLetterIndex,
+			};
+		}
 	}
 
 	_handleLetterChange(e: CustomEvent<LetterSelector>) {
@@ -134,7 +185,6 @@ export default class WordleSolver extends LitElement {
 		if (letter !== "") {
 			let nextWordIndex = wordIndex;
 			let nextLetterIndex = letterIndex;
-			console.log(wordIndex, letterIndex, nextLetterIndex, nextLetterIndex);
 			// If not the last word
 			if (letterIndex === 4) {
 				// If this is the last letter
@@ -270,8 +320,6 @@ export class LetterSelector extends LitElement {
 
 		this._updateColourAttribute();
 		this.inputEl = this.renderRoot?.querySelector("input.letter-input");
-
-		this.inputEl?.addEventListener;
 	}
 
 	// rome-ignore lint/suspicious/noExplicitAny: <explanation>
