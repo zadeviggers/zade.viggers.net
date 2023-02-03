@@ -14,11 +14,7 @@ import lit from "@astrojs/lit";
 export default defineConfig({
 	integrations: [
 		solid(),
-		tailwind({
-			config: {
-				applyBaseStyles: false,
-			},
-		}),
+		tailwind(),
 		mdx(),
 		compress(),
 		beep({

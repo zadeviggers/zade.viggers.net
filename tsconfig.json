@@ -5,6 +5,7 @@
 		"jsxImportSource": "solid-js",
 		"strict": true,
 		"experimentalDecorators": true,
-		"useDefineForClassFields": false
+		"useDefineForClassFields": false,
+		"strictNullChecks": true
 	}
 }
