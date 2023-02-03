@@ -1,5 +1,5 @@
 ---
-layout: ../../layouts/interesting-things-layout.astro
+layout: ../../layouts/main-page-layout.astro
 title: Dynamic theme colours
 order: 3
 ---
