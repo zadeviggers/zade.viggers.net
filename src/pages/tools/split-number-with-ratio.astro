@@ -71,73 +71,74 @@ import MainPageLayout from "../../layouts/main-page-layout.astro";
 			<div id="ratio-output">Output will appear here</div>
 		</div>
 	</div>
+</MainPageLayout>
 
-	<script>
-		// Get the input element that has the value to split up
-		const numberToDivideInput = document.getElementById(
-			"number-to-divide",
-		) as HTMLInputElement;
+<script>
+	// Get the input element that has the value to split up
+	const numberToDivideInput = document.getElementById(
+		"number-to-divide",
+	) as HTMLInputElement;
 
-		// Get the element that will have the output values
-		const outputContainer = document.getElementById(
-			"ratio-output",
-		) as HTMLElement;
+	// Get the element that will have the output values
+	const outputContainer = document.getElementById(
+		"ratio-output",
+	) as HTMLElement;
 
-		// Get the element that holes the list of ratio inputs
-		const ratioInputList = document.getElementById("ratio-list") as HTMLElement;
+	// Get the element that holes the list of ratio inputs
+	const ratioInputList = document.getElementById("ratio-list") as HTMLElement;
+
+	/**
+	 * Calculates the ratios and displays them in the output element.
+	 * This is called each time one of the inputs changes. Very inneficient, but I don't care.
+	 */
+	function calculateRatios() {
+		// Some gaurd claucles
+		if (
+			typeof numberToDivideInput.value !== "string" ||
+			numberToDivideInput.value.length < 1
+		)
+			return;
+
+		const toDivide = Number(numberToDivideInput.value);
+
+		if (Number.isNaN(toDivide)) return;
+
+		// Get all the ratio values
+		const ratioValues: [number, string][] = [
+			...document
+				.querySelectorAll<HTMLInputElement>("#ratio-list input")
+				.values(),
+		]
+			// Get the dtaa
+			.map((el) => [el.value, el.getAttribute("data-ratio-part")])
+			// Make sure the value exists
+			.filter(([value]) => typeof value === "string" && value.length > 0)
+			// Convert the value to a number
+			.map(([value, ...rest]) => [Number(value), ...rest])
+			// Make sure the valeu isn't NaN
+			.filter(([value]) => !Number.isNaN(value)) as [number, string][];
+
+		// Get the sum of the ratios
+		const ratioSum: number = ratioValues.reduce(
+			(accumlator, [value]) => accumlator + value,
+			0,
+		);
 
 		/**
-		 * Calculates the ratios and displays them in the output element.
-		 * This is called each time one of the inputs changes. Very inneficient, but I don't care.
+		 * Compute the ratios using THE FORMULA!
+		 * The formula is from here: https://www.math-only-math.com/divide-a-number-into-three-parts-in-a-given-ratio.html.
+		 * Basically, given the ratio A : B : C, e.g. 1 : 2 : 3, and the numebr to divide P, e.g. 20,
+		 * the result is this:
+		 * A's share of P: (A * P) / (A + B + C)
+		 * B's share of P: (B * P) / (A + B + C)
+		 * C's share of P: (C * P) / (A + B + C)
 		 */
-		function calculateRatios() {
-			// Some gaurd claucles
-			if (
-				typeof numberToDivideInput.value !== "string" ||
-				numberToDivideInput.value.length < 1
-			)
-				return;
+		const computedRatios: [number, string][] = ratioValues.map(
+			([ratio, ...rest]) => [(toDivide * ratio) / ratioSum, ...rest],
+		);
 
-			const toDivide = Number(numberToDivideInput.value);
-
-			if (Number.isNaN(toDivide)) return;
-
-			// Get all the ratio values
-			const ratioValues: [number, string][] = [
-				...document
-					.querySelectorAll<HTMLInputElement>("#ratio-list input")
-					.values(),
-			]
-				// Get the dtaa
-				.map((el) => [el.value, el.getAttribute("data-ratio-part")])
-				// Make sure the value exists
-				.filter(([value]) => typeof value === "string" && value.length > 0)
-				// Convert the value to a number
-				.map(([value, ...rest]) => [Number(value), ...rest])
-				// Make sure the valeu isn't NaN
-				.filter(([value]) => !Number.isNaN(value)) as [number, string][];
-
-			// Get the sum of the ratios
-			const ratioSum: number = ratioValues.reduce(
-				(accumlator, [value]) => accumlator + value,
-				0,
-			);
-
-			/**
-			 * Compute the ratios using THE FORMULA!
-			 * The formula is from here: https://www.math-only-math.com/divide-a-number-into-three-parts-in-a-given-ratio.html.
-			 * Basically, given the ratio A : B : C, e.g. 1 : 2 : 3, and the numebr to divide P, e.g. 20,
-			 * the result is this:
-			 * A's share of P: (A * P) / (A + B + C)
-			 * B's share of P: (B * P) / (A + B + C)
-			 * C's share of P: (C * P) / (A + B + C)
-			 */
-			const computedRatios: [number, string][] = ratioValues.map(
-				([ratio, ...rest]) => [(toDivide * ratio) / ratioSum, ...rest],
-			);
-
-			// Output the data
-			outputContainer.innerHTML = `
+		// Output the data
+		outputContainer.innerHTML = `
 <dl>
     ${computedRatios
 			.map(
@@ -146,27 +147,27 @@ import MainPageLayout from "../../layouts/main-page-layout.astro";
 			)
 			.join("\n")}
 </dl>`;
-		}
+	}
 
-		/**
-		 * Adds another ratio part to the list of ratio parts.
-		 */
-		function addAnotherRatioSection() {
-			// Get the biggest ratio number
-			const ratioPartNumber =
-				([
-					...document
-						.querySelectorAll<HTMLInputElement>("#ratio-list input")
-						.values(),
-				]
-					.map((el) => el.getAttribute("data-ratio-part"))
-					.filter((part) => !!part)
-					.map((part) => Number(part))
-					.filter((part) => !Number.isNaN(part))
-					.sort((a, b) => b - a)?.[0] || 1) + 1;
+	/**
+	 * Adds another ratio part to the list of ratio parts.
+	 */
+	function addAnotherRatioSection() {
+		// Get the biggest ratio number
+		const ratioPartNumber =
+			([
+				...document
+					.querySelectorAll<HTMLInputElement>("#ratio-list input")
+					.values(),
+			]
+				.map((el) => el.getAttribute("data-ratio-part"))
+				.filter((part) => !!part)
+				.map((part) => Number(part))
+				.filter((part) => !Number.isNaN(part))
+				.sort((a, b) => b - a)?.[0] || 1) + 1;
 
-			// Ugly inline html
-			const html = `
+		// Ugly inline html
+		const html = `
 <label id="ratio-part-${ratioPartNumber}-label" for="ratio-part-${ratioPartNumber}">
     Part ${ratioPartNumber}
     <div class="flex gap-1">
@@ -185,53 +186,52 @@ import MainPageLayout from "../../layouts/main-page-layout.astro";
     </div>
 </label>`;
 
-			// This is a nify trick for inserting an html string without having to create a parent element to stick it in.
-			// Docs: https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML
-			ratioInputList.insertAdjacentHTML("beforeend", html);
+		// This is a nify trick for inserting an html string without having to create a parent element to stick it in.
+		// Docs: https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML
+		ratioInputList.insertAdjacentHTML("beforeend", html);
 
-			// Add a listener for when text is inputed
-			(
-				document.getElementById(
-					`ratio-part-${ratioPartNumber}`,
-				) as HTMLInputElement
-			).addEventListener("input", calculateRatios);
-
-			// Add a listener to the remove button
-			(
-				document.getElementById(
-					`remove-ratio-part-${ratioPartNumber}-button`,
-				) as HTMLButtonElement
-			).addEventListener("click", handleRemoveSectionClick);
-		}
-
-		/**
-		 * Removes the radio section who's button was clicked to call this function.
-		 */
-		function handleRemoveSectionClick(event: MouseEvent) {
-			// Get the element the listener was atatched to
-			const button = event.currentTarget as HTMLButtonElement;
-
-			// Figure out which ratio part to remove
-			const ratioPartToRemove = button.getAttribute("data-remove-ratio");
-
-			// Get the container element
-			const containerElement = document.getElementById(
-				`ratio-part-${ratioPartToRemove}-label`,
-			) as HTMLElement;
-
-			// Remove it
-			containerElement.remove();
-		}
-
-		// Attaching event listeners
+		// Add a listener for when text is inputed
 		(
 			document.getElementById(
-				"add-another-ratio-part-button",
+				`ratio-part-${ratioPartNumber}`,
+			) as HTMLInputElement
+		).addEventListener("input", calculateRatios);
+
+		// Add a listener to the remove button
+		(
+			document.getElementById(
+				`remove-ratio-part-${ratioPartNumber}-button`,
 			) as HTMLButtonElement
-		).addEventListener("click", addAnotherRatioSection);
-		document
-			.querySelectorAll<HTMLInputElement>("#ratio-list input")
-			.forEach((el) => el.addEventListener("input", calculateRatios));
-		numberToDivideInput.addEventListener("input", calculateRatios);
-	</script>
-</MainPageLayout>
+		).addEventListener("click", handleRemoveSectionClick);
+	}
+
+	/**
+	 * Removes the radio section who's button was clicked to call this function.
+	 */
+	function handleRemoveSectionClick(event: MouseEvent) {
+		// Get the element the listener was atatched to
+		const button = event.currentTarget as HTMLButtonElement;
+
+		// Figure out which ratio part to remove
+		const ratioPartToRemove = button.getAttribute("data-remove-ratio");
+
+		// Get the container element
+		const containerElement = document.getElementById(
+			`ratio-part-${ratioPartToRemove}-label`,
+		) as HTMLElement;
+
+		// Remove it
+		containerElement.remove();
+	}
+
+	// Attaching event listeners
+	(
+		document.getElementById(
+			"add-another-ratio-part-button",
+		) as HTMLButtonElement
+	).addEventListener("click", addAnotherRatioSection);
+	document
+		.querySelectorAll<HTMLInputElement>("#ratio-list input")
+		.forEach((el) => el.addEventListener("input", calculateRatios));
+	numberToDivideInput.addEventListener("input", calculateRatios);
+</script>
