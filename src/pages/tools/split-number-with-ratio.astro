@@ -152,6 +152,7 @@ import MainPageLayout from "../../layouts/main-page-layout.astro";
 		 * Adds another ratio part to the list of ratio parts.
 		 */
 		function addAnotherRatioSection() {
+			// Get the biggest ratio number
 			const ratioPartNumber =
 				([
 					...document
@@ -163,6 +164,8 @@ import MainPageLayout from "../../layouts/main-page-layout.astro";
 					.map((part) => Number(part))
 					.filter((part) => !Number.isNaN(part))
 					.sort((a, b) => b - a)?.[0] || 1) + 1;
+
+			// Ugly inline html
 			const html = `
 <label id="ratio-part-${ratioPartNumber}-label" for="ratio-part-${ratioPartNumber}">
     Part ${ratioPartNumber}
