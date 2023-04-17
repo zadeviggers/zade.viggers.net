@@ -2,30 +2,30 @@ lockfileVersion: 5.4
 
 specifiers:
   '@astrojs/lit': ^1.1.2
-  '@astrojs/mdx': ^0.16.0
-  '@astrojs/solid-js': 2.0.2
+  '@astrojs/mdx': ^0.19.0
+  '@astrojs/solid-js': 2.1.0
   '@astrojs/tailwind': ^3.0.1
   '@tailwindcss/typography': ^0.5.9
-  '@webcomponents/template-shadowroot': ^0.1.0
-  astro: ^2.0.6
+  '@webcomponents/template-shadowroot': ^0.2.1
+  astro: ^2.3.0
   astro-beep: ^0.2.0
-  astro-compress: ^1.1.29
+  astro-compress: ^1.1.35
   date-fns: ^2.29.3
-  lit: ^2.6.1
+  lit: ^2.7.2
   prettier: 2.8.3
   prettier-plugin-astro: 0.8.0
   prettier-plugin-tailwindcss: ^0.2.7
   simple-vanilla-notifications: ^3.2.0
-  solid-js: ^1.6.10
-  tailwindcss: ^3.2.4
+  solid-js: ^1.7.3
+  tailwindcss: ^3.3.1
 
 dependencies:
-  '@astrojs/lit': 1.3.0_flha5ua56hzbkplvuvjsnrqksq
-  '@astrojs/mdx': 0.16.2_astro@2.3.0
-  '@astrojs/solid-js': 2.0.2_solid-js@1.7.3
+  '@astrojs/lit': 1.3.0_by427x3wajk7lzgrvbwiv7crxa
+  '@astrojs/mdx': 0.19.0_astro@2.3.0
+  '@astrojs/solid-js': 2.1.0_solid-js@1.7.3
   '@astrojs/tailwind': 3.1.1_zwpyd63tzib74yordqn4to2xfu
   '@tailwindcss/typography': 0.5.9_tailwindcss@3.3.1
-  '@webcomponents/template-shadowroot': 0.1.0
+  '@webcomponents/template-shadowroot': 0.2.1
   astro: 2.3.0
   astro-compress: 1.1.35
   date-fns: 2.29.3
@@ -75,14 +75,14 @@ packages:
       vscode-uri: 3.0.7
     dev: false
 
-  /@astrojs/lit/1.3.0_flha5ua56hzbkplvuvjsnrqksq:
+  /@astrojs/lit/1.3.0_by427x3wajk7lzgrvbwiv7crxa:
     resolution: {integrity: sha512-mAh0WUNsdBChNRR6t+WznhG4+FzON745u0eH5lJKBOErcIIoHkCb248l9iR7Z4UvVEp24AYYpo4t9WkIb8vTEg==}
     peerDependencies:
       '@webcomponents/template-shadowroot': ^0.1.0
       lit: ^2.1.3
     dependencies:
       '@lit-labs/ssr': 2.3.0
-      '@webcomponents/template-shadowroot': 0.1.0
+      '@webcomponents/template-shadowroot': 0.2.1
       lit: 2.7.2
       parse5: 7.1.2
     dev: false
@@ -110,8 +110,8 @@ packages:
       - supports-color
     dev: false
 
-  /@astrojs/mdx/0.16.2_astro@2.3.0:
-    resolution: {integrity: sha512-ZNOdBW7ExnWM50+wubg8iw5J1jkUVkTHAJXQt3IwH4TVIOC3mQyr5hDPfN2/pwG9Ch9RNlI+7nsDFNaHY0AeaA==}
+  /@astrojs/mdx/0.19.0_astro@2.3.0:
+    resolution: {integrity: sha512-McFpMV+npinIEKnY5t9hsdzLd76g78GgIRUPxem2OeXPNB8xr2pNS28GeU0+6Pn5STnB+sgcyyeqXLgzauOlMQ==}
     engines: {node: '>=16.12.0'}
     dependencies:
       '@astrojs/markdown-remark': 2.1.4_astro@2.3.0
@@ -119,7 +119,7 @@ packages:
       '@mdx-js/mdx': 2.3.0
       '@mdx-js/rollup': 2.3.0
       acorn: 8.8.2
-      es-module-lexer: 0.10.5
+      es-module-lexer: 1.2.1
       estree-util-visit: 1.2.1
       github-slugger: 1.5.0
       gray-matter: 4.0.3
@@ -129,6 +129,7 @@ packages:
       remark-gfm: 3.0.1
       remark-smartypants: 2.0.0
       shiki: 0.11.1
+      source-map: 0.7.4
       unist-util-visit: 4.1.2
       vfile: 5.3.7
     transitivePeerDependencies:
@@ -144,8 +145,8 @@ packages:
       prismjs: 1.29.0
     dev: false
 
-  /@astrojs/solid-js/2.0.2_solid-js@1.7.3:
-    resolution: {integrity: sha512-fQMOfBcmvYHXJg8vR0LgoeBgrlLHrxnlzxxmPkDKrGPBRh9y3si2d/ChpMyMRL3ibAOqWTs7Xs5gOYqrFZbw3g==}
+  /@astrojs/solid-js/2.1.0_solid-js@1.7.3:
+    resolution: {integrity: sha512-p07DP9NRWJPjtF+CzPZ9lzOMkoyw6wSs3S6g3OZUxR+DVQy3VIXXDqCcnZZVJI34VakkHuViZaoNNkBW/9I54w==}
     engines: {node: '>=16.12.0'}
     peerDependencies:
       solid-js: ^1.4.3
@@ -992,8 +993,8 @@ packages:
     resolution: {integrity: sha512-ukOMWnCg1tCvT7WnDfsUKQOFDQGsyR5tNgRpwmqi+5/vzU3ghdDXzvIM4IOPdSb3OeSsBNvmSL8nxIVOqi2WXA==}
     dev: false
 
-  /@webcomponents/template-shadowroot/0.1.0:
-    resolution: {integrity: sha512-ry84Vft6xtRBbd4M/ptRodbOLodV5AD15TYhyRghCRgIcJJKmYmJ2v2BaaWxygENwh6Uq3zTfGPmlckKT/GXsQ==}
+  /@webcomponents/template-shadowroot/0.2.1:
+    resolution: {integrity: sha512-fXL/vIUakyZL62hyvUh+EMwbVoTc0hksublmRz6ai6et8znHkJa6gtqMUZo1oc7dIz46exHSIImml9QTdknMHg==}
     dev: false
 
   /acorn-jsx/5.3.2_acorn@8.8.2:
@@ -1721,10 +1722,6 @@ packages:
   /entities/4.5.0:
     resolution: {integrity: sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw==}
     engines: {node: '>=0.12'}
-    dev: false
-
-  /es-module-lexer/0.10.5:
-    resolution: {integrity: sha512-+7IwY/kiGAacQfY+YBhKMvEmyAJnw5grTUgjG85Pe7vcUI/6b7pZjZG8nQ7+48YhzEAEqrEgD2dCz/JIK+AYvw==}
     dev: false
 
   /es-module-lexer/1.2.1:
