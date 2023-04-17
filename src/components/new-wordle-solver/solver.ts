@@ -87,7 +87,7 @@ export default class WordleSolver extends LitElement {
 		// Spawn worker
 		const isFirefox = navigator.userAgent.toLowerCase().indexOf("firefox") > -1;
 		if (
-			!window.Worker ||
+			!window?.Worker ||
 			// @ts-expect-error: import.meta.env isn't typed properly for some reason
 			(import.meta.env.MODE === "development" && isFirefox)
 		) {
