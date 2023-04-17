@@ -10,24 +10,24 @@
 		"format": "prettier -w --plugin-search-dir=. ."
 	},
 	"dependencies": {
-		"@astrojs/lit": "^1.1.2",
-		"@astrojs/mdx": "^0.16.0",
-		"@astrojs/solid-js": "2.0.2",
-		"@astrojs/tailwind": "^3.0.1",
+		"@astrojs/lit": "^2.0.1",
+		"@astrojs/mdx": "^0.19.0",
+		"@astrojs/solid-js": "2.1.0",
+		"@astrojs/tailwind": "^3.1.1",
 		"@tailwindcss/typography": "^0.5.9",
-		"@webcomponents/template-shadowroot": "^0.1.0",
-		"astro": "^2.0.6",
-		"astro-compress": "^1.1.29",
+		"@webcomponents/template-shadowroot": "^0.2.1",
+		"astro": "^2.3.0",
+		"astro-compress": "^1.1.35",
 		"date-fns": "^2.29.3",
-		"lit": "^2.6.1",
+		"lit": "^2.7.2",
 		"simple-vanilla-notifications": "^3.2.0",
-		"solid-js": "^1.6.10",
-		"tailwindcss": "^3.2.4"
+		"solid-js": "^1.7.3",
+		"tailwindcss": "^3.3.1"
 	},
 	"devDependencies": {
 		"astro-beep": "^0.2.0",
 		"prettier": "2.8.3",
 		"prettier-plugin-astro": "0.8.0",
-		"prettier-plugin-tailwindcss": "^0.2.2"
+		"prettier-plugin-tailwindcss": "^0.2.7"
 	}
 }
