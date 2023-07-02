@@ -9,7 +9,7 @@ import {
 } from "solid-js";
 import "../styles/fancy-tabs.css";
 
-export default function BoringTabs({
+export default function Tabs({
 	tabs = { a: "b" },
 	defaultTab,
 	boring = false,
@@ -20,7 +20,6 @@ export default function BoringTabs({
 	boring?: boolean;
 	underlined?: boolean;
 }) {
-	console.log("Hello!");
 	const [activeTab, setActiveTab] = createSignal<keyof typeof tabs>(
 		defaultTab || Object.keys(tabs)[0]!,
 	);
