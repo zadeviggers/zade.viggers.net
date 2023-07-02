@@ -125,7 +125,7 @@ import {
 } from "solid-js";
 import "../styles/fancy-tabs.css";
 
-export default function BoringTabs({
+export default function Tabs({
 	tabs = { a: "b" },
 	defaultTab,
 	boring = false,
@@ -206,10 +206,6 @@ export default function BoringTabs({
 	);
 }
 ```
-
-(I got lazy and just copied and pasted the component that I made to use in this
-article which is kinda ugly and bad, but it should still show you the gist of
-it).
 
 Also, if you're using React (not sure if this applies to other frameworks or
 not), and you're changing the width of the tab button when it's active, by
