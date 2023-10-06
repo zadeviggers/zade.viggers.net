@@ -38,17 +38,17 @@ export default function Tabs({
 	function updateIndicator() {
 		if (!boring && indicator() && activeButtonRef() && tabControlsRect()) {
 			const activeButtonRect = activeButtonRef()!.getBoundingClientRect();
-			indicator()!.style.left = `${
-				activeButtonRect.left - tabControlsRect()!.left
-			}px`;
+			indicator()!.style.left = `${activeButtonRect.left - tabControlsRect()!.left
+				}px`;
 			indicator()!.style.width = `${activeButtonRect.width}px`;
 		}
 	}
 
 	createEffect(updateIndicator);
 
-	onMount(() => window?.addEventListener?.("resize", updateIndicator));
-	onCleanup(() => window?.removeEventListener?.("resize", updateIndicator));
+	onMount(() => {  window?.addEventListener?.("resize", updateIndicator) });
+	onCleanup(() => { window?.removeEventListener?.("resize", updateIndicator) });
+
 
 	return (
 		<div

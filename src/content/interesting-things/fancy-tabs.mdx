@@ -20,13 +20,13 @@ import HowManyYearsAgo from "../../components/HowManyYearsAgo.astro";
 
 Most tabs suck. They work, but they're ugly. Here's an example:
 
-<Tabs client:load tabs={tabs} boring />
+<Tabs client:only tabs={tabs} boring />
 
 These tabs are functional. Obiously in a real senario you'd style them a tad
 prettier, but that is effectivley what they'd look like. Or you might opt for an
 underline instead, like Google does:
 
-<Tabs client:load tabs={tabs} boring underlined />
+<Tabs client:only tabs={tabs} boring underlined />
 
 ## The problem
 
@@ -42,9 +42,9 @@ your users sad. They make you sad.
 Make the tabs fun! Make the background (or underline) move when the user chanegs
 tab, rather than teleporting it.
 
-<Tabs client:load tabs={tabs} />
+<Tabs client:only tabs={tabs} />
 
-<Tabs client:load tabs={tabs} underlined />
+<Tabs client:only tabs={tabs} underlined />
 
 It looks scary, but it's not actually that bad to implement. All you have to do
 in your javascript is set a `left` and `width` value on an indicator element
