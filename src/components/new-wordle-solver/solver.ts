@@ -1,9 +1,11 @@
-import { css, html, LitElement } from "lit";
+import { css, html, LitElement, isServer } from "lit";
 
 import { customElement, property, state } from "lit/decorators.js";
 
 import { repeat } from "lit/directives/repeat.js";
 import type { Colour, FilterData } from "./shared";
+
+console.log("Solver is server: ", isServer);
 
 @customElement("wordle-solver")
 export default class WordleSolver extends LitElement {
