@@ -20,6 +20,20 @@ a.arrow-left::before {
 	content: "← ";
 }
 
+aside,
+.aside {
+	@apply border-l-8 border border-theme p-4 rounded-md w-fit;
+}
+:where(aside, .aside).small {
+	@apply border-l-4 p-2;
+}
+:where(aside, .aside).danger {
+	@apply border-rose-500;
+}
+:where(aside, .aside).warning {
+	@apply border-amber-500;
+}
+
 label {
 	@apply flex flex-col my-1;
 }

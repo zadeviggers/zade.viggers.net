@@ -184,7 +184,7 @@ export default function WordleSolver() {
 					Possible words
 					{possibleWords().length > 0 && ` (${possibleWords().length})`}:
 				</h2>
-				<p class="border border-l-4 pl-2 border-theme rounded-md p-2">
+				<p class="aside small">
 					More common words will generally be higher up in the list.
 				</p>
 				<ul>
@@ -193,12 +193,12 @@ export default function WordleSolver() {
 						fallback={
 							totalLength() <= threshold ? (
 								<>
-									<li class="border border-l-4 pl-2 border-rose-500 rounded-md p-2 mt-2">
+									<li class="aside warning small mt-2">
 										Enter at least {threshold} characters to see suggestions.
 									</li>
 								</>
 							) : (
-								<li>No words found :{"("}</li>
+								<li class="aside warning small mt-2">No words found :{"("}</li>
 							)
 						}
 						children={(word, index) => <li data-index={index()}>{word}</li>}
