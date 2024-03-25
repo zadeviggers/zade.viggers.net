@@ -1,15 +1,13 @@
 ---
 import MainPageLayout from "../../layouts/main-page-layout.astro";
-import WordleSolver from "../../components/wordle-solver.tsx";
 import "simple-vanilla-notifications/defaults.css";
 ---
 
 <MainPageLayout title="Wordle solver">
 	<h1 class="font-bold">Wordle solver</h1>
 	<aside>
-		This is buggy at the moment. <br />If your screen fills up with spammed
-		alerts, do a hard reload (shift + refresh button). <br />I'll fix it at some
-		point.
+		I just re-coded this tool, so if there are bugs, please let me know. My
+		email is on the home page.
 	</aside>
 	<p>
 		Use for finding words for <a
@@ -21,12 +19,55 @@ import "simple-vanilla-notifications/defaults.css";
 		This tool loads a very big list, so if it's slow, just give it a bit. Also
 		it might not work on old devices.
 	</p>
-	<WordleSolver client:load />
-	<p>
-		Made with <a href="https://www.solidjs.com/" rel="noopener noreferrer"
-			>Solid</a
-		>.
-	</p>
+	<div class="lg:max-w-2xl">
+		<div class="flex flex-col">
+			<p>Enter at least 2 total letters to see suggestions.</p>
+			<label for="greyed-out-letters">
+				Greyed out letters
+				<input
+					class="wordle-solver-input"
+					id="greyed-out-letters"
+					type="text"
+					pattern="[a-zA-Z]+"
+				/>
+			</label>
+			<label for="yellow-letters">
+				Yellow letters
+				<input
+					class="wordle-solver-input"
+					id="yellow-letters"
+					type="text"
+					pattern="^[a-zA-Z]$"
+				/>
+			</label>
+			<label
+				for="green-letters"
+				title="In order. Put a '?' for unknown letters."
+			>
+				Green letters
+				<input
+					class="wordle-solver-input"
+					id="green-letters"
+					type="text"
+					placeholder="W??DS"
+					pattern="^[a-zA-Z\?]{0,5}$"
+					maxlength={5}
+				/>
+			</label>
+			<h2 class="font-bold" id="possible-words-title">
+				Possible words:
+				<!-- {possibleWords().length > 0 && ` (${possibleWords().length})`}: -->
+			</h2>
+			<p class="aside small">
+				More common words will generally be higher up in the list.
+			</p>
+			<ul id="possible-words">
+				<li class="aside warning small mt-2">
+					Enter at least 2 characters to see suggestions.
+				</li>
+			</ul>
+		</div>
+	</div>
 </MainPageLayout>
 
 <style is:global>
@@ -34,3 +75,126 @@ import "simple-vanilla-notifications/defaults.css";
 		text-transform: uppercase;
 	}
 </style>
+
+<script>
+	import { createNotificationManager } from "simple-vanilla-notifications";
+	const { createNotification } = createNotificationManager();
+	const elements = {
+		greyInput: document.getElementById(
+			"greyed-out-letters",
+		)! as HTMLInputElement,
+		yellowInput: document.getElementById("yellow-letters")! as HTMLInputElement,
+		greenInput: document.getElementById("green-letters")! as HTMLInputElement,
+		possibleWords: document.getElementById("possible-words")!,
+		possibleWordsTitle: document.getElementById("possible-words-title")!,
+	};
+
+	[elements.greenInput, elements.yellowInput, elements.greyInput].forEach(
+		(el) => el.addEventListener("input", handleInput),
+	);
+
+	const words: string[] = await fetch("/five-letter-words.txt").then(
+		async (res) => {
+			const wordList = (await res.text()).split("\n");
+			createNotification("Word list loaded");
+			return wordList;
+		},
+	);
+
+	const greenLetters = () =>
+		elements.greenInput.value.toUpperCase().split("") || [];
+	const yellowLetters = () =>
+		elements.yellowInput.value.toUpperCase().split("") || [];
+	const greyLetters = () =>
+		elements.greyInput.value.toUpperCase().split("") || [];
+
+	const totalLength = () =>
+		greyLetters().length + yellowLetters().length + greenLetters().length;
+
+	function handleInput() {
+		console.log(totalLength());
+		console.log(greyLetters(), yellowLetters(), greenLetters());
+
+		if (totalLength() >= 2) {
+			const requiredLetters = [
+				...yellowLetters(),
+				...greenLetters().filter((l) => l !== "?"),
+			];
+			const greyFiltered =
+				greyLetters().length === 0
+					? words
+					: words.filter((word) => {
+							if (
+								greyLetters()
+									.filter((letter) => !requiredLetters.includes(letter))
+									.find((letter) => {
+										if (word.includes(letter)) {
+											return true;
+										} else {
+											return false;
+										}
+									})
+							) {
+								return false;
+							} else {
+								return true;
+							}
+						});
+			const yellowFiltered =
+				yellowLetters().length === 0
+					? greyFiltered
+					: greyFiltered?.filter((word) => {
+							if (
+								requiredLetters.filter((letter) => word.includes(letter))
+									.length === requiredLetters.length
+							) {
+								return true;
+							} else {
+								return false;
+							}
+						});
+			const greenFiltered =
+				greenLetters().length === 0
+					? yellowFiltered
+					: yellowFiltered?.filter((word) => {
+							if (
+								greenLetters().filter((letter, i) => {
+									if (letter === "?") {
+										return true;
+									} else if (word[i] === letter) {
+										return true;
+									} else {
+										return false;
+									}
+								}).length === greenLetters().length
+							) {
+								return true;
+							}
+							return false;
+						});
+
+			setPossibleWords(greenFiltered || []);
+		} else {
+			setPossibleWords([]);
+		}
+	}
+
+	function setPossibleWords(possibleWords: string[]) {
+		if (totalLength() === 0) {
+			elements.possibleWords.innerHTML = `<li class="aside warning small mt-2">
+					Enter at least 2 characters to see suggestions.
+				</li>`;
+			return;
+		}
+		if (possibleWords.length === 0) {
+			elements.possibleWords.innerHTML = `<li class="aside warning small mt-2">No words found :(</li>`;
+			return;
+		}
+		elements.possibleWords.innerHTML = ``;
+		for (const word of possibleWords) {
+			const el = document.createElement("ul");
+			el.innerText = word;
+			elements.possibleWords.appendChild(el);
+		}
+	}
+</script>
