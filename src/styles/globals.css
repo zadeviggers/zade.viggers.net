@@ -43,10 +43,10 @@ label:focus-within {
 }
 
 input {
-	@apply border-2 border-slate-500 rounded-lg p-2 text-black;
+	@apply border-2 border-grey-500 rounded-lg p-2 text-black;
 }
 input:hover {
-	@apply border-slate-400;
+	@apply border-grey-400;
 }
 
 input:focus {

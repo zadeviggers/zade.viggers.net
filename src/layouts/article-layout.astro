@@ -1,0 +1,20 @@
+---
+type Props = {
+	disableResponsive?: boolean | undefined;
+} & ({ title: string } | { frontmatter: { title: string } });
+
+import BaseLayout from "./base-layout.astro";
+const { disableResponsive } = Astro.props;
+
+const title =
+	"title" in Astro.props ? Astro.props.title : Astro.props.frontmatter.title;
+---
+
+<BaseLayout title={title} {disableResponsive}>
+	<article class="prose prose-stone">
+		<slot />
+	</article>
+	<footer>
+		<a href="/" class="arrow-left">Back to home page</a>
+	</footer>
+</BaseLayout>

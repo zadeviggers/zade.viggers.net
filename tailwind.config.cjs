@@ -9,12 +9,19 @@ module.exports = {
 				// theme: colors.lime,
 				theme: "var(--theme)",
 				"theme-contrast": "var(--theme-contrast)",
+				grey: colors.stone,
 			},
 			typography: (theme) => ({
 				DEFAULT: {
 					css: {
 						a: {
 							"text-decoration-color": theme("colors.theme"),
+						},
+						blockquote: {
+							"& p::before, & p::after": {
+								content: "none !important",
+							},
+							fontWeight: "inherit !important",
 						},
 					},
 				},

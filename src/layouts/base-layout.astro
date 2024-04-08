@@ -1,6 +1,6 @@
 ---
 import "../styles/globals.css";
-interface Props {
+export interface Props {
 	title: string;
 	disableResponsive?: boolean | undefined;
 }
@@ -8,7 +8,7 @@ interface Props {
 const { title, disableResponsive } = Astro.props;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="bg-white">
 	<head>
 		<meta charset="UTF-8" />
@@ -19,6 +19,7 @@ const { title, disableResponsive } = Astro.props;
 			)
 		}
 		<meta name="generator" content={Astro.generator} />
+		<slot name="head" />
 	</head>
 	<body class="p-2">
 		<slot />
