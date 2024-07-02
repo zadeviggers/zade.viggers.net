@@ -1,10 +1,8 @@
 ---
-layout: ../../layouts/main-page-layout.astro
+layout: ../../layouts/article-layout.astro
 title: Dynamic theme colours
 order: 3
 ---
-
-# Dynamic theme/accent colours
 
 Hey! Do you want your site to be able to do _this_?
 

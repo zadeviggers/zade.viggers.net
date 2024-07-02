@@ -4,7 +4,9 @@ import { getCollection, getEntryBySlug } from "astro:content";
 export async function getStaticPaths() {
 	const articles = await getCollection("interesting-things");
 
-	const slugs = articles.map((article) => article.slug);
+	const slugs = articles
+		.filter((article) => !article.data.draft)
+		.map((article) => article.slug);
 
 	return slugs.map((slug) => ({
 		params: {

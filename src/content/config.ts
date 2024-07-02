@@ -4,6 +4,7 @@ const interestingThingsCollection = defineCollection({
 	schema: z.object({
 		title: z.string(),
 		order: z.number(),
+		draft: z.optional(z.boolean()),
 	}),
 });
 
