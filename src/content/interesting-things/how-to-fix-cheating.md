@@ -4,7 +4,7 @@ title: How To Fix Cheating*
 order: 4
 ---
 
-_\*In short, offline games with an online leaderboard._
+_\*In short offline games with an online leaderboard._
 
 ## Overview
 
