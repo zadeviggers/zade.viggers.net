@@ -8,10 +8,11 @@ _\*In short offline games with an online leaderboard._
 
 ## Overview
 
-We generate the game's randomness using a random number generator seeded with
-the timestamp the game round started at. Then, we keep track of every action the
-player takes during the game. Lastly, the server simulates the game using that
-seed and action log and calculates the score in a trusted environment.
+First, generate the game's randomness using a random number generator seeded
+with the timestamp the game round started at. Then, keep track of every action
+the player takes during the game. Lastly, get your trusted server to simulate
+the game using that seed and action log. Add the score from your simulated game
+to the leaderboard.
 
 > Important note: This doesn't actually stop people from cheating - the games
 > industry has been failing to do that for a very long time now. It stops people
@@ -70,8 +71,12 @@ or engineer salaries trying to get accurate times from sped-up game simulations.
    leaderboard, which should be the same as the score the player got if they
    weren't cheating.
 
-   An extension activity could be to accept many different game versions and
-   simulate the game using that version, and track it in a separate leaderboard.
+An extension activity could be to accept many different game versions and
+simulate the game using that version, and track it in a separate leaderboard.
+
+You could also include user IDs in the random seed and use that along with an
+auth token (sent together with seed and action log) to verify that the score
+actually came from the person who submitted it.
 
 This only works in a pretty narrow scope, where cheating isn't an enormous
 problem anyway, but I randomly had the idea so I wrote it down in case it's
